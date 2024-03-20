@@ -20,7 +20,17 @@ inventory = {"Weapons": ["Gun"],
 player_health = 10
 
 current_area = "00"
-
+area_adjacent  = [[False,False,False,"12",False,False,False], #0
+                  [False,False,False,"11",False,False,"b14"], #1
+                  ["c14","c12","c11","10","b11","b12","b13"], #2
+                  [False,"c13",False,"09",False,False,"a12"], #3
+                  [False,False,False,"08",False,False,"a11"], #4
+                  [False,False,False,"07","a8","a9","a10"], #5
+                  [False,False,False,"06",False,False,False], #6
+                  [False,False,False,"05",False,False,False], #7
+                  [False,False,"03","04",False,False,False], #8
+                  [False,False,"02",False,False,False,False], #9
+                  [False,False,"01",False,False,False,False]] #10
 # You can only every look each area once, this information will be used in the function loot
 looted = {"00": False,
           "01": False,
@@ -54,9 +64,7 @@ looted = {"00": False,
           "c14": False}
 
 has_map = False
-
-
-def crafting():
+def show_inventory():
     print("-----Inventory-----")
     for i in range(len(inventory["Weapons"])):
         print(inventory["Weapons"][i])
@@ -64,6 +72,9 @@ def crafting():
     print(inventory["Molotov"], ": Bullets")
     print(inventory["Shiv"], ": Bullets")
     print(inventory["Medkit"], ": Bullets")
+
+def crafting():
+    show_inventory()
     print("-----Resorces-----")
     print(inventory["Bottle"], ": Bottles")
     print(inventory["Alcohol"], ": Alcohol")
@@ -78,17 +89,36 @@ def crafting():
     while True:
         crafting_input = int(input(":"))
         if crafting_input == 1 and inventory["Bottle"] >= 1 and inventory["Alcohol"] >= 2:  # Crafting for Molotov
-            print("Test")
-
+            inventory["Molotov"] += 1
+            print("You Craft one Molotov")
+            print("-1 Bottle")
+            print("-2 Alcohol")
+            print("+1 Molotov")
+            show_inventory()
         elif crafting_input == 2 and inventory["Blade"] >= 1 and inventory["Tape"] >= 1:  # Crafting for Shiv
-            print("Test")
+            inventory["Shiv"] += 1
+            print("You Craft one Shiv")
+            print("-1 Blade")
+            print("-1 Tape")
+            print("+1 Shiv")
+            show_inventory()
 
-        elif crafting_input == 3 and inventory["Tape"] >= 2 and inventory["Alcohol"] >= 1 and inventory[
-            "Blade"] >= 2:  # Crafting for Medkit
+        elif crafting_input == 3 and inventory["Tape"] >= 2 and inventory["Alcohol"] >= 1 and inventory["Blade"] >= 2:  # Crafting for Medkit
+            inventory["Medkit"] += 1
+            print("You Craft one Medkit")
+            print("-2 Tape")
+            print("-1 Alcohol")
+            print("-2 Blades")
+            print("+1 Medkits")
+            show_inventory()
 
-            print("Test")
         elif crafting_input == 4 and inventory["Bottle"] >= 2 and inventory["Gun_powder"] >= 3:  # Crafting for Bullets
-            print("Test")
+            inventory["Bullets"] += 3
+            print("You Craft 3 Bullets")
+            print("-2 Bottles")
+            print("-3 Gun powder")
+            print("+3 Bullets")
+            show_inventory()
 
 
 # This is the loot fuctions this can be acted apon every location
@@ -145,7 +175,7 @@ def map():
     print("-------------------------------------")
 
 
-# Timer fuction, this shortens the amount of code
+# Timer function, this shortens the amount of code needed when trying to run time.sleep
 def timer(a):
     print("...")
     # time.sleep(a)
@@ -223,25 +253,44 @@ def part_1():
         else:
             print("Invalid input Please try again")
 
-
-def area_1():
+#Area(y value of the area, x value of the area, Area name, text a, text b,
+def area_general(y,x,a,b,c):
     global has_map
-    current_area = "01"
+    current_area = a     #5     #5
+    current_location = [(y-1),(x-1)]
     if has_map == True:
         map()
-    print("You moved forward in the tunnels")
-    print("You see what seems to be a put out fire")
-
-    if has_map == False:
-        print("You can move forwards(W),look around(E) or loot(L)")
-    else:
-        print("You can move forwards(W) or loot(L)")
+    print(current_location)
+    print("Up",area_adjacent[current_location[0] - 1][x])
+    print("Left",area_adjacent[current_location[1] + 1][y])
+    print("Down", area_adjacent[current_location[0] + 1][x])
+    print("Right", area_adjacent[current_location[1] - 1][y])
+    print(b)
+    print(c)
     while True:
+        if area_adjacent[current_location[0] - 1][x]:
+            print("you can move forward")
+        if area_adjacent[current_location[1] + 1][y]:
+            print("You can move Left")
+        if area_adjacent[current_location[0] + 1][x]:
+            print("You can move Down")
+        if area_adjacent[current_location[1] - 1][y]:
+            print("You can move right")
         player_action = str(input(":"))
-        player_action = player_action.upper()
-        if player_action == "W":
-            area_2()
-            break
+        player_action = player_action.upper()  #10 , 3
+        if area_adjacent[current_location[0] - 1]:
+            if player_action == "W":
+                print("Forward")
+        if area_adjacent[current_location[1] + 1]:
+            if player_action == "A":
+                print("Left")
+        if area_adjacent[current_location[0] + 1]:
+            if player_action == "S":
+                print("Down")
+        if area_adjacent[current_location[1] - 1]:
+            if player_action == "D":
+                print("Right")
+
         elif player_action == "E" and has_map == False:
             print("You look around")
             timer(2)
@@ -252,49 +301,49 @@ def area_1():
             timer(2)
             has_map = True
         elif player_action == "L":
-            print("Test")
-            loot("01")
-            looted["01"] = True
+            loot(current_area)
+            looted[current_area] = True
 
         else:
             print("Invalid input")
 
 
-def area_2():
-    global has_map
-    current_area = "02"
-    if has_map == True:
-        map()
-
-    print("You moved even further into the tunnels")
-    print("You find plastic water bottles and clean clothes")
-    timer(1)
-    print("You hear a noise up ahead")
-    print("You can move forwards(W) *Noise ahead, you can move back(S) or loot(L)")
-    while True:
-        player_action = str(input(":"))
-        player_action = player_action.upper()
-        if player_action == "W":
-            area_3()
-            break
-        elif player_action == "S":
-            area_1()
-            break
-        elif player_action == "L":
-            loot("02")
-            looted["02"] = True
-
-            # Adds addtional items
-            print("You find 2 more bottles")
-            print("You find 1 more Tape")
-            inventory["Bottles"] += 2
-            inventory["Tape"] += 1
-        else:
-            print("Invaild input")
+#def area_2():
+    #global has_map
+    #current_area = "02"
+    #if has_map == True:
+    #    map()
+    #
+    #print("You moved even further into the tunnels")
+    #print("You find plastic water bottles and clean clothes")
+    #timer(1)
+    #print("You hear a noise up ahead")
+    #print("You can move forwards(W) *Noise ahead, you can move back(S) or loot(L)")
+    #while True:
+     #   player_action = str(input(":"))
+     #   player_action = player_action.upper()
+    #    if player_action == "W":
+     #       area_3()
+     #       break
+     #   elif player_action == "S":
+     #       area_1()
+     #       break
+     #   elif player_action == "L":
+      #      loot("02")
+      #      looted["02"] = True
+#
+      #      # Adds addtional items
+      #      print("You find 2 more bottles")
+      ##      print("You find 1 more Tape")
+       #     inventory["Bottles"] += 2
+     #       inventory["Tape"] += 1
+      # else:
+       #     print("Invaild input")
 
 
 # Main
-intro()
+#Area(y value of the area, x value of the area, Area name, text a, text b,
+area_general(6,6,"a9","Hello","Hello")
 
 
 
