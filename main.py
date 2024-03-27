@@ -22,20 +22,20 @@ player_health = 10
 next_area = "00"
 current_area = "00"
 
-area_adjacent  = [[False,False,False,False,False,False,False],#0
-                  [False,False,False,"12",False,False,False], #1
-                  [False,False,False,"11",False,False,"b14",False], #2
-            [False,"c14","c12","c11","10","b11","b12","b13",False], #3
-                  [False,"c13",False,"09",False,False,"a12",False], #4
-                  [False,False,False,"08",False,False,"a11",False], #5
-                  [False,False,False,"07","a8","a9","a10",False], #6
-                  [False,False,False,"06",False,False,False], #7
-                  [False,False,False,"05",False,False,False], #8
-                  [False,False,"03","04",False,False,False], #9
-                  [False,False,"02",False,False,False,False], #10
-                  [False,False,"01",False,False,False,False], #11
-                  [False,False,False,False,False,False,False]] #12
-                    #1    #2    #3   #4    #5    #6     #7
+area_adjacent  = [[False,False,False,False,False,False,False,False,False],#0
+                  [False,False,False,False,"12",False,False,False,False], #1
+                  [False,False,False,False,"11",False,False,"b14",False], #2
+                  [False,"c14","c12","c11","10","b11","b12","b13",False], #3
+                  [False,False,"c13",False,"09",False,False,"a12",False], #4
+                  [False,False,False,False,"08",False,False,"a11",False], #5
+                  [False,False,False,False,"07","a8","a9","a10",False], #6
+                  [False,False,False,False,"06",False,False,False,False], #7
+                  [False,False,False,False,"05",False,False,False,False], #8
+                  [False,False,False,"03","04",False,False,False,False], #9
+                  [False,False,False,"02",False,False,False,False,False], #10
+                  [False,False,False,"01",False,False,False,False,False], #11
+                  [False,False,False,False,False,False,False,False,False]] #12
+                    #0    #1    #2   #3    #4    #5     #6   #7     #8S
 # You can only every look each area once, this information will be used in the function loot
 looted = {"00": False,
           "01": False,
@@ -266,7 +266,7 @@ def area_general(y,x,a,b,c):
     global has_map
     current_area = a
     current_location = [x,y]
-
+    print(current_area)
     if has_map == True:
         map()
 
@@ -349,54 +349,54 @@ def area_general(y,x,a,b,c):
 # Main
 #Area(y value of the area, x value of the area, Area name, text a, text b,
 def area_1():
-    area_general(11, 2, "01", "You move forwards into the tunnels", "You don't see anything")
+    area_general(11, 3, "01", "You move forwards into the tunnels", "You don't see anything")
 def area_2():
-    area_general(10, 2, "02", "You find an opening, there seems to have bottels lying around", "You don't see anything")
+    area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "You don't see anything")
 def area_3():
-    area_general(9, 2, "03", "", "")
+    area_general(9, 3, "03", "", "")
 def area_4():
-    area_general(9, 3, "04", "", "")
+    area_general(9, 4, "04", "", "")
 
 def area_5():
-    area_general(8, 3, "05", "", "")
+    area_general(8, 4, "05", "", "")
 
 def area_6():
-    area_general(7, 3,"06", "", "")
+    area_general(7, 4,"06", "", "")
 
 def area_7():
-    area_general(6, 3, "07", "", "")
+    area_general(6, 4, "07", "", "")
 
 def area_8():
-    area_general(5, 3, "08", "", "")
+    area_general(5, 4, "08", "", "")
 
 def area_9():
-    area_general(4, 3, "09", "", "")
+    area_general(4, 4, "09", "", "")
 
 def area_10():
     area_general(3, 4, "10", "", "")
 
 def area_11():
-    area_general(2, 3, "11", "", "")
+    area_general(2, 4, "11", "", "")
 
 def area_12():
-    area_general(1, 3, "12", "", "")
+    area_general(1, 4, "12", "", "")
 
 
 
 def area_a8():
-    area_general(6, 4, "a8", "", "")
+    area_general(6, 5, "a8", "", "")
 
 def area_a9():
-    area_general(6, 5, "a9", "", "")
+    area_general(6, 6, "a9", "", "")
 
 def area_a10():
-    area_general(6, 6, "a10", "", "")
+    area_general(6, 7, "a10", "", "")
 
 def area_a11():
-    area_general(5, 6, "a11", "", "")
+    area_general(5, 7, "a11", "", "")
 
 def area_a12():
-    area_general(4, 6, "a12", "", "")
+    area_general(4, 7, "a12", "", "")
 
 
 
@@ -409,7 +409,7 @@ def area_b13():
     area_general(3, 7, "b13", "", "")
 
 def area_b14():
-    area_general(2, 6, "b14", "", "")
+    area_general(2, 7, "b14", "", "")
 
 
 
@@ -420,7 +420,7 @@ def area_c12():
     area_general(3, 2, "c12", "", "")
 
 def area_c13():
-    area_general(4, 1, "c13", "", "")
+    area_general(4, 2, "c13", "", "")
 
 def area_c14():
     area_general(3, 1, "c14", "", "")
