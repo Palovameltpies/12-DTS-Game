@@ -17,6 +17,21 @@ inventory = {"Weapons": ["Gun"],
 
              }
 
+infected = [
+    {"Name": "Clicker", "Health": 8, "Attack": 100},
+    {"Name": "Runner", "Health": 4, "Attack": 4},
+    {"Name": "Bloater", "Health": 20, "Attack": 5
+     }]
+
+wlf = {"Health": 8,
+       "Attack": 4
+       }
+
+combat = []
+
+
+
+
 player_health = 10
 
 next_area = "00"
@@ -346,6 +361,85 @@ def area_general(y,x,a,b,c):
             print("Invalid input")
 
 
+def combat_inf(a):  # Combat against Infected
+    global player_health
+    visable = False
+
+    for i in range(a):
+        combat.append(infected[random.randint(0, 2)])
+        print(combat[i]["Name"])
+    combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
+
+    while visable == False:
+        # Choses Attack
+        while True:
+            print("You can attack with")
+            print("1 : Gun *Noise(", inventory["Bullets"], "Bullets)")
+            print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
+            print("3 : Shiv(", inventory["Shiv"], "Shivs)")
+            print("4 : Medkit(", inventory["Medkit"], "Medkits)")
+
+            try:
+                attack = int(input(":"))
+
+                if attack == 1:  # Attack with gun
+                    combat[0]["Health"] -= 4
+                    visable = True
+                    inventory["Bullets"] -= 1
+                    print("You make noise")
+                    timer(0.5)
+                    print("You shot a", combat[0]["Name"], "And dealt 4 damage")
+
+                elif attack == 2:  # Attack with molotov
+                    combat[0]["Health"] -= 10
+                    visable = True
+                    inventory["Molotov"] -= 1
+                    print("You make noise")
+                    timer(0.5)
+                    print("You throw a molotov at a", combat[0]["Name"], "And dealt 10 Damage")
+
+                elif attack == 3:  # Attack with shiv
+                    combat[0]["Health"] -= 20
+                    inventory["Shiv"] -= 1
+                    print("You shank a", combat[0]["Name"])
+
+
+                elif attack == 4:  # MedKit
+                    player_health_gain += random.randint(2, 6)
+                    timer(0.5)
+                    print("You Gained", player_health_gain, "Health")
+                    player_health += player_health_gain
+
+                    inventory["Medkit"] -= 1
+
+                #If you infected has less than 0 health
+                if combat[0]["Health"] <= 0:
+                    timer(0.5)
+                    print("You killed a", combat[0]["Name"])
+                    combat.pop(0)
+
+                #If you become visbale to the enemy they will attack
+                if visable == True:
+                    print("You get attacked by an", combat[0]["Name"])
+                    print("You take", combat[0]["Attack"], "Damage")
+
+                    player_health -= combat[0]["Attack"]
+
+                    print("You have", player_health, "Health")
+
+                #Death
+                if player_health <= 0:
+                    print("You die")
+
+                #Win
+                if len(combat) == 1:
+                    print("You won")
+
+
+
+
+            except ValueError:
+                print("Input Error Please try again")
 # Main
 #Area(y value of the area, x value of the area, Area name, text a, text b,
 def area_1():
@@ -353,6 +447,7 @@ def area_1():
 def area_2():
     area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "You don't see anything")
 def area_3():
+    combat_inf(1)
     area_general(9, 3, "03", "", "")
 def area_4():
     area_general(9, 4, "04", "", "")
@@ -361,6 +456,7 @@ def area_5():
     area_general(8, 4, "05", "", "")
 
 def area_6():
+    combat_inf(2)
     area_general(7, 4,"06", "", "")
 
 def area_7():
@@ -370,6 +466,7 @@ def area_8():
     area_general(5, 4, "08", "", "")
 
 def area_9():
+    combat_inf(2)
     area_general(4, 4, "09", "", "")
 
 def area_10():
@@ -387,6 +484,7 @@ def area_a8():
     area_general(6, 5, "a8", "", "")
 
 def area_a9():
+    combat_inf(3)
     area_general(6, 6, "a9", "", "")
 
 def area_a10():
@@ -396,6 +494,7 @@ def area_a11():
     area_general(5, 7, "a11", "", "")
 
 def area_a12():
+    combat_inf(2)
     area_general(4, 7, "a12", "", "")
 
 
@@ -409,6 +508,7 @@ def area_b13():
     area_general(3, 7, "b13", "", "")
 
 def area_b14():
+    combat_inf(2)
     area_general(2, 7, "b14", "", "")
 
 
@@ -423,6 +523,7 @@ def area_c13():
     area_general(4, 2, "c13", "", "")
 
 def area_c14():
+    combat_inf(2)
     area_general(3, 1, "c14", "", "")
 
 
