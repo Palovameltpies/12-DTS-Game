@@ -1,41 +1,19 @@
 import time
 import random
 
-global current_area
 
-# Player Inventory
-inventory = {"Weapons": ["Gun"],
-             "Bullets": 10,
-             "Molotov": 0,
-             "Shiv": 0,
-             "Medkit": 0,
-             "Bottle": 0,
-             "Alcohol": 0,
-             "Blade": 0,
-             "Tape": 0,
-             "Gun_powder": 0
-
-             }
-
-infected = [
-    {"Name": "Clicker", "Health": 8, "Attack": 100},
+#Infected stats
+INFECTED = [
+    {"Name": "Clicker", "Health": 8, "Attack": 5},
     {"Name": "Runner", "Health": 4, "Attack": 4},
     {"Name": "Bloater", "Health": 20, "Attack": 5
      }]
 
+#Wolf Stats (WLF)
 wlf = {"Health": 8,
        "Attack": 4
        }
 
-combat = []
-
-
-
-
-player_health = 10
-
-next_area = "00"
-current_area = "00"
 
 area_adjacent  = [[False,False,False,False,False,False,False,False,False],#0
                   [False,False,False,False,"12",False,False,False,False], #1
@@ -51,47 +29,15 @@ area_adjacent  = [[False,False,False,False,False,False,False,False,False],#0
                   [False,False,False,"01",False,False,False,False,False], #11
                   [False,False,False,False,False,False,False,False,False]] #12
                     #0    #1    #2   #3    #4    #5     #6   #7     #8S
-# You can only every look each area once, this information will be used in the function loot
-looted = {"00": False,
-          "01": False,
-          "02": False,
-          "03": False,
-          "04": False,
-          "05": False,
-          "06": False,
-          "07": False,
-          "08": False,
-          "09": False,
-          "10": False,
-          "11": False,
-          "12": False,
 
-          "a8": False,
-          "a9": False,
-          "a10": False,
-          "a11": False,
-          "a12": False,
-          "a13": False,
-
-          "b11": False,
-          "b12": False,
-          "b13": False,
-          "b14": False,
-
-          "c11": False,
-          "c12": False,
-          "c13": False,
-          "c14": False}
-
-has_map = False
 def show_inventory():
     print("-----Inventory-----")
     for i in range(len(inventory["Weapons"])):
         print(inventory["Weapons"][i])
     print(inventory["Bullets"], ": Bullets")
-    print(inventory["Molotov"], ": Bullets")
-    print(inventory["Shiv"], ": Bullets")
-    print(inventory["Medkit"], ": Bullets")
+    print(inventory["Molotov"], ": Molotovs")
+    print(inventory["Shiv"], ": Shivs")
+    print(inventory["Medkit"], ": MedKits")
 
 def crafting():
     show_inventory()
@@ -205,7 +151,67 @@ def timer(a):
 
 
 def intro():
+    global inventory
+    global looted
+    global combat
+    global player_health
+    global next_area
+    global current_area
+    global has_map
     global name
+    #Reset all values
+    inventory = {"Weapons": ["Gun"],
+                 "Bullets": 10,
+                 "Molotov": 0,
+                 "Shiv": 0,
+                 "Medkit": 0,
+                 "Bottle": 0,
+                 "Alcohol": 0,
+                 "Blade": 0,
+                 "Tape": 0,
+                 "Gun_powder": 0
+
+                 }
+
+    #Checks if the area has been looted before
+    looted = {"00": False,
+              "01": False,
+              "02": False,
+              "03": False,
+              "04": False,
+              "05": False,
+              "06": False,
+              "07": False,
+              "08": False,
+              "09": False,
+              "10": False,
+              "11": False,
+              "12": False,
+
+              "a8": False,
+              "a9": False,
+              "a10": False,
+              "a11": False,
+              "a12": False,
+              "a13": False,
+
+              "b11": False,
+              "b12": False,
+              "b13": False,
+              "b14": False,
+
+              "c11": False,
+              "c12": False,
+              "c13": False,
+              "c14": False}
+
+    #Holds current combat values
+    combat = []
+    player_health = 1000
+    next_area = "00"
+    current_area = "00"
+    has_map = False
+
     print("Welcome to GAME NAME HERE")
     name = str(input("Please input a name\n:"))
     while True:
@@ -305,7 +311,7 @@ def area_general(y,x,a,b,c):
 
 
         if has_map == False:
-            print("You can loot around(E)")
+            print("You can look around(E)")
 
         if looted[current_area] == False:
             print("You can loot(L)")
@@ -361,13 +367,13 @@ def area_general(y,x,a,b,c):
             print("Invalid input")
 
 
-def combat_inf(a):  # Combat against Infected
+def combat_inf(a):  # Combat against INFECTED
     player_health_gain = 0
     global player_health
     visable = False
 
     for i in range(a):
-        combat.append(infected[random.randint(0, 2)])
+        combat.append(INFECTED[random.randint(0, 2)])
         print(combat[i]["Name"])
     combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
 
@@ -418,7 +424,7 @@ def combat_inf(a):  # Combat against Infected
 
                 else:
                     print("You don't have any of that item >:(")
-                #If you infected has less than 0 health
+                #If you INFECTED has less than 0 health
                 if combat[0]["Health"] <= 0:
                     timer(0.5)
                     print("You killed a", combat[0]["Name"])
@@ -436,10 +442,28 @@ def combat_inf(a):  # Combat against Infected
                 #Death
                 if player_health <= 0:
                     print("You die")
+                    combat.pop(0)
+                    timer(2)
+                    while True:
+                        try:
+                            print("Would you like to try again\n1 To Try again\n2 To Exit\n")
+                            try_again = int(input(":"))
+                            if try_again == 1:
+                                timer(1)
+                                intro()
+                            elif try_again == 2:
+                                print("Thank you for playing")
+                                exit(2)
+
+                        except ValueError:
+                            print("Please input a valid number")
 
                 #Win
                 if len(combat) == 1:
+                    combat.pop(0)
                     print("You won")
+                    timer(1)
+                    return
 
 
 
@@ -456,22 +480,34 @@ def combat_inf(a):  # Combat against Infected
 def area_1():
     area_general(11, 3, "01", "You move forwards into the tunnels", "You don't see anything")
 def area_2():
-    area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "You don't see anything")
+    area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "Hear A noise Ahead")
 def area_3(): #Has Combat
     combat_inf(1)
+
+    #Progress in the story
+    print(name,"- HEY THEIR ARE INFECTED IN THE TUNNELS")
+    timer(3.5)
+    print("Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*")
+    timer(3.5)
+    print(name,"- fuck their isn't a connection")
+    timer(3.5)
+    print(name,"I got to find a way out of here")
+    timer(3.5)
     area_general(9, 3, "03", "", "")
+
+
 def area_4():
-    area_general(9, 4, "04", "", "")
+    area_general(9, 4, "04", "You See can far ahead of you", "You see the remains of dead infected")
 
 def area_5():
-    area_general(8, 4, "05", "", "")
+    area_general(8, 4, "05", "You can still see far ahead of you ", "This causes you to feel very alone")
 
 def area_6(): #Has Combat
     combat_inf(2)
-    area_general(7, 4,"06", "", "")
+    area_general(7, 4,"06", "The amount of infected causes you to feel worried", "You find a fire still smoking, people are nearby")
 
 def area_7():
-    area_general(6, 4, "07", "", "")
+    area_general(6, 4, "07", "You find even more remains of people ahead", "You find a carving of a wooden statue resembling a woman with the words Feel Her love inscribed into the back ")
 
 def area_8():
     area_general(5, 4, "08", "", "")
