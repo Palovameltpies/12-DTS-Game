@@ -362,6 +362,7 @@ def area_general(y,x,a,b,c):
 
 
 def combat_inf(a):  # Combat against Infected
+    player_health_gain = 0
     global player_health
     visable = False
 
@@ -382,7 +383,7 @@ def combat_inf(a):  # Combat against Infected
             try:
                 attack = int(input(":"))
 
-                if attack == 1:  # Attack with gun
+                if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
                     combat[0]["Health"] -= 4
                     visable = True
                     inventory["Bullets"] -= 1
@@ -390,7 +391,7 @@ def combat_inf(a):  # Combat against Infected
                     timer(0.5)
                     print("You shot a", combat[0]["Name"], "And dealt 4 damage")
 
-                elif attack == 2:  # Attack with molotov
+                elif attack == 2 and inventory["Molotov"] > 0:  # Attack with molotov
                     combat[0]["Health"] -= 10
                     visable = True
                     inventory["Molotov"] -= 1
@@ -398,20 +399,25 @@ def combat_inf(a):  # Combat against Infected
                     timer(0.5)
                     print("You throw a molotov at a", combat[0]["Name"], "And dealt 10 Damage")
 
-                elif attack == 3:  # Attack with shiv
+                elif attack == 3 and inventory["Shiv"] > 0:  # Attack with shiv
                     combat[0]["Health"] -= 20
                     inventory["Shiv"] -= 1
                     print("You shank a", combat[0]["Name"])
 
 
-                elif attack == 4:  # MedKit
-                    player_health_gain += random.randint(2, 6)
-                    timer(0.5)
-                    print("You Gained", player_health_gain, "Health")
-                    player_health += player_health_gain
+                elif attack == 4 and inventory["Medkit"] > 0:  # MedKit
+                    if player_health < 15:
+                        player_health_gain += random.randint(2, 6)
+                        timer(0.5)
+                        print("You Gained", player_health_gain, "Health")
+                        player_health += player_health_gain
 
-                    inventory["Medkit"] -= 1
+                        inventory["Medkit"] -= 1
+                    else:
+                        print("You have max health")
 
+                else:
+                    print("You don't have any of that item >:(")
                 #If you infected has less than 0 health
                 if combat[0]["Health"] <= 0:
                     timer(0.5)
@@ -441,12 +447,17 @@ def combat_inf(a):  # Combat against Infected
             except ValueError:
                 print("Input Error Please try again")
 # Main
-#Area(y value of the area, x value of the area, Area name, text a, text b,
+#Area(y value of the area, x value of the area, Area name, text a, text b)
+
+
+
+
+
 def area_1():
     area_general(11, 3, "01", "You move forwards into the tunnels", "You don't see anything")
 def area_2():
     area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "You don't see anything")
-def area_3():
+def area_3(): #Has Combat
     combat_inf(1)
     area_general(9, 3, "03", "", "")
 def area_4():
@@ -455,7 +466,7 @@ def area_4():
 def area_5():
     area_general(8, 4, "05", "", "")
 
-def area_6():
+def area_6(): #Has Combat
     combat_inf(2)
     area_general(7, 4,"06", "", "")
 
@@ -465,7 +476,7 @@ def area_7():
 def area_8():
     area_general(5, 4, "08", "", "")
 
-def area_9():
+def area_9(): #Has Combat
     combat_inf(2)
     area_general(4, 4, "09", "", "")
 
@@ -479,11 +490,11 @@ def area_12():
     area_general(1, 4, "12", "", "")
 
 
-
+#A
 def area_a8():
     area_general(6, 5, "a8", "", "")
 
-def area_a9():
+def area_a9(): #Has Combat
     combat_inf(3)
     area_general(6, 6, "a9", "", "")
 
@@ -493,26 +504,27 @@ def area_a10():
 def area_a11():
     area_general(5, 7, "a11", "", "")
 
-def area_a12():
+def area_a12(): #Has Combat
     combat_inf(2)
     area_general(4, 7, "a12", "", "")
 
 
 
+#B Area's
 def area_b11():
     area_general(3, 5, "b11", "", "")
 
 def area_b12():
     area_general(3, 6, "b12", "", "")
+
 def area_b13():
     area_general(3, 7, "b13", "", "")
 
-def area_b14():
+def area_b14(): #Has Combat
     combat_inf(2)
     area_general(2, 7, "b14", "", "")
 
-
-
+#C Area's
 def area_c11():
     area_general(3, 3, "c11", "", "")
 
@@ -522,7 +534,7 @@ def area_c12():
 def area_c13():
     area_general(4, 2, "c13", "", "")
 
-def area_c14():
+def area_c14(): #Has Combat
     combat_inf(2)
     area_general(3, 1, "c14", "", "")
 
