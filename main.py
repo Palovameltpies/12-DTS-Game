@@ -2,6 +2,8 @@ import time
 import random
 
 
+#VERSON 2   note to self change this every time you upload to github
+
 #Infected stats
 INFECTED = [
     {"Name": "Clicker", "Health": 8, "Attack": 5},
@@ -9,16 +11,19 @@ INFECTED = [
     {"Name": "Bloater", "Health": 20, "Attack": 5
      }]
 
-#Wolf Stats (WLF)
-wlf = {"Health": 8,
+#Scar Stats (WLF)
+Scar = {"Health": 8,
        "Attack": 4
        }
 
 
+#2,4 Is blocked at the start of the game due to not having the key therefor it is set as FALSE
+#3,5 Is blocked at the start of the game due to not having the chrowbar therefor it is set as FALSE
+
 area_adjacent  = [[False,False,False,False,False,False,False,False,False],#0
                   [False,False,False,False,"12",False,False,False,False], #1
-                  [False,False,False,False,"11",False,False,"b14",False], #2
-                  [False,"c14","c12","c11","10","b11","b12","b13",False], #3
+                  [False,False,False,False,False,False,False,"b14",False], #2
+                  [False,"c14","c12","c11","10",False,"b12","b13",False], #3
                   [False,False,"c13",False,"09",False,False,"a12",False], #4
                   [False,False,False,False,"08",False,False,"a11",False], #5
                   [False,False,False,False,"07","a8","a9","a10",False], #6
@@ -140,7 +145,7 @@ def map():
     print("- N -      [03][04]                  ")
     print("W + E      [02]                      ")
     print("- S -      [01]                      ")
-    print("-------------------------------------")
+    print("-------------------------------------\n")
 
 
 # Timer function, this shortens the amount of code needed when trying to run time.sleep
@@ -211,7 +216,6 @@ def intro():
     next_area = "00"
     current_area = "00"
     has_map = False
-
     print("Welcome to GAME NAME HERE")
     name = str(input("Please input a name\n:"))
     while True:
@@ -224,6 +228,57 @@ def intro():
 
         except ValueError:
             print("Please input a valid input")
+
+
+    while True:
+        try:
+            print("Would you like more to know how to play?")
+            more_info = int(input("1 to learn about movement\n2 to learn about combat\n3 to learn about crafting\n4 to leave"))
+            if more_info == 1: #Learn about player movment
+                print("This game has an area system")
+                timer(1.5)
+                print("You can only move in 2 dimension (Up, Down, left, Right)")
+                timer(1.5)
+                print("When not in combat you are able to move in these directions at any time")
+                timer(1.5)
+                print("When choseing a direction to move in you press")
+                timer(1.5)
+                print("W for forward (up)")
+                timer(0.5)
+                print("S for Backwards (Down)")
+                timer(0.5)
+                print("D for Right")
+                timer(0.5)
+                print("A for Left")
+                timer(0.5)
+                print("Have Fun :)")
+            elif more_info == 2:#Learn about combat
+                print("This game has combat")
+                timer(1.5)
+                print("When in combat you will be against a specific number of infected or scars")
+                timer(1.5)
+                print("Every turn you will be able to attack with a choice of 3 weapons")
+                timer(1.5)
+                print("Gun : Makes noise, low damage")
+                timer(0.5)
+                print("Molotov : Makes noise, high damage difficult to craft")
+                timer(0.5)
+                print("Shiv : Silence, instant kill can only use when in stealth")
+                timer(0.5)
+                print("As long as you stay silent you will not be attacked and this means you won't take damage")
+                timer(1.5)
+                print("One the enemy know your their you only get attacked by one at a time")
+                timer(1.5)
+                print("")
+                timer(1.5)
+                print("")
+
+
+
+        except ValueError:
+            print("Please input a valid input")
+
+
     print("Game Loading")
     timer(2)
     part_1()
@@ -298,16 +353,16 @@ def area_general(y,x,a,b,c):
     while True:
 
         if area_adjacent[y-1][x]:
-            print("You see a tunnel forward(W)")
+            print("You see a tunnel forward(W)\n")
 
         if area_adjacent[y][x-1]:
-            print("You see a tunnel to the Left(A)")
+            print("You see a tunnel to the Left(A)\n")
 
         if area_adjacent[y][x+1]:
-            print("You see a tunnel to the Right(D)")
+            print("You see a tunnel to the Right(D)\n")
 
         if area_adjacent[y+1][x]:
-            print("You can go backwards(S)")
+            print("You can go backwards(S)\n")
 
 
         if has_map == False:
@@ -366,8 +421,9 @@ def area_general(y,x,a,b,c):
         else:
             print("Invalid input")
 
-
-def combat_inf(a):  # Combat against INFECTED
+def combat_inf(a):   #COMBAT DISABLER
+    print(a)
+def combat_infe(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING COMBAT UNTILL FURTHER TESTING IS COMPLETE
     player_health_gain = 0
     global player_health
     visable = False
@@ -485,13 +541,13 @@ def area_3(): #Has Combat
     combat_inf(1)
 
     #Progress in the story
-    print(name,"- HEY THEIR ARE INFECTED IN THE TUNNELS")
+    print(name,"- HEY THERE ARE INFECTED IN THE TUNNELS")
     timer(3.5)
     print("Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*")
     timer(3.5)
-    print(name,"- fuck their isn't a connection")
+    print(name,"- fuck there isn't a connection")
     timer(3.5)
-    print(name,"I got to find a way out of here")
+    print(name,"I need to find a way out of here")
     timer(3.5)
     area_general(9, 3, "03", "", "")
 
@@ -507,42 +563,47 @@ def area_6(): #Has Combat
     area_general(7, 4,"06", "The amount of infected causes you to feel worried", "You find a fire still smoking, people are nearby")
 
 def area_7():
-    area_general(6, 4, "07", "You find even more remains of people ahead", "You find a carving of a wooden statue resembling a woman with the words Feel Her love inscribed into the back ")
+    area_general(6, 4, "07", "You see spore to the right of you", "You find a carving of a wooden statue resembling a woman with the words Feel Her love inscribed into the back ")
 
 def area_8():
-    area_general(5, 4, "08", "", "")
+    area_general(5, 4, "08", "You hear a noise ahead, could it be the scars?", "")
 
 def area_9(): #Has Combat
     combat_inf(2)
     area_general(4, 4, "09", "", "")
 
 def area_10():
-    area_general(3, 4, "10", "", "")
+    area_general(3, 4, "10", "You see a locked door in front of you maybe there is a key some where around here?", "There is a cave in to the right of you, maybe something will let you get through it.")
 
 def area_11():
-    area_general(2, 4, "11", "", "")
+    area_general(2, 4, "11", "Opening the door you find ladders and wooden crates scatered around the place", "This must be a scar base")
 
 def area_12():
-    area_general(1, 4, "12", "", "")
+    area_general(1, 4, "12", "You see movement ahead", "It didn't look like a infected")
 
 
 #A
 def area_a8():
-    area_general(6, 5, "a8", "", "")
+    print("----SPORES----")
+    area_general(6, 5, "a8", "Putting on your mask you walk through the spores", "")
 
 def area_a9(): #Has Combat
     combat_inf(3)
-    area_general(6, 6, "a9", "", "")
+    print("----SPORES----")
+    area_general(6, 6, "a9", "These tunnel are crawling with infected you need to figure out where the scars have taken the hosteges", "And get the hell out of here")
 
 def area_a10():
+    print("----SPORES----")
     area_general(6, 7, "a10", "", "")
 
 def area_a11():
-    area_general(5, 7, "a11", "", "")
+    print("----SPORES----")
+    area_general(5, 7, "a11", "Even more noise ahead expect infected as you are still inside spores", "")
 
 def area_a12(): #Has Combat
     combat_inf(2)
-    area_general(4, 7, "a12", "", "")
+    print("----SPORES----")
+    area_general(4, 7, "a12", "Fucking infected", "The spores seem to end ahead of you")
 
 
 
@@ -554,11 +615,12 @@ def area_b12():
     area_general(3, 6, "b12", "", "")
 
 def area_b13():
-    area_general(3, 7, "b13", "", "")
+    area_general(3, 7, "b13", "You see spores behind you", "")
 
 def area_b14(): #Has Combat
     combat_inf(2)
-    area_general(2, 7, "b14", "", "")
+    area_general(2, 7, "b14", "You find a key? I wonder what it is for?", "")
+    area_adjacent[2][4] = "11"
 
 #C Area's
 def area_c11():
@@ -572,7 +634,8 @@ def area_c13():
 
 def area_c14(): #Has Combat
     combat_inf(2)
-    area_general(3, 1, "c14", "", "")
+    area_general(3, 1, "c14", "One of the infected had a crowbar on them", "What could this help open")
+    area_adjacent[3][5] = "b11"
 
 
 
