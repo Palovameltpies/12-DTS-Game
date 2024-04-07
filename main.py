@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 2   note to self change this every time you upload to github
+#VERSON 3   note to self change this every time you upload to github
 
 #Infected stats
 INFECTED = [
@@ -261,17 +261,34 @@ def intro():
                 timer(1.5)
                 print("Gun : Makes noise, low damage")
                 timer(0.5)
-                print("Molotov : Makes noise, high damage difficult to craft")
+                print("Molotov : Makes noise, high damage, difficult to craft")
                 timer(0.5)
-                print("Shiv : Silence, instant kill can only use when in stealth")
+                print("Shiv : Silence, instant kill, can only use when in stealth")
                 timer(0.5)
                 print("As long as you stay silent you will not be attacked and this means you won't take damage")
                 timer(1.5)
-                print("One the enemy know your their you only get attacked by one at a time")
+                print("Once the enemy know your their you only get attacked by them one at a time")
                 timer(1.5)
-                print("")
+            elif more_info == 3:# Learn about looting and crafting
+                print("In this game you will need to craft items to use in combat")
                 timer(1.5)
-                print("")
+                print("Every time you enter an area you are able to loot the area")
+                timer(1.5)
+                print("Note: you cannot loot the same area more than once")
+                timer(1.5)
+                print("You can find Bottles which can be used to craft bullets or molotov's")
+                timer(1.5)
+                print("You can find Alcohol which can be used to craft medkit's or molotov's")
+                timer(1.5)
+                print("You can find Blades which can be used to craft shivs and medkit's")
+                timer(1.5)
+                print("You can find Tape which can be used the craft shivs and medkit's")
+                timer(1.5)
+                print("You can find gun powder which can be used to craft bullets")
+            else:
+                print("Good luck")
+                timer(1.5)
+                break
 
 
 
