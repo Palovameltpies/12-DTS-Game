@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 3   note to self change this every time you upload to github
+#VERSON 4   note to self change this every time you upload to github
 
 #Infected stats
 INFECTED = [
@@ -12,9 +12,10 @@ INFECTED = [
      }]
 
 #Scar Stats (WLF)
-Scar = {"Health": 8,
-       "Attack": 4
-       }
+Scar = {"Name":"Scar",
+        "Health": 8,
+        "Attack": 4
+        }
 
 
 #2,4 Is blocked at the start of the game due to not having the key therefor it is set as FALSE
@@ -40,6 +41,7 @@ def show_inventory():
     for i in range(len(inventory["Weapons"])):
         print(inventory["Weapons"][i])
     print(inventory["Bullets"], ": Bullets")
+    print(inventory["Silencer"], " : Silencers")
     print(inventory["Molotov"], ": Molotovs")
     print(inventory["Shiv"], ": Shivs")
     print(inventory["Medkit"], ": MedKits")
@@ -57,42 +59,68 @@ def crafting():
     print("[2] : 1 Blade + 1 Tape = Shiv(1)")
     print("[3] : 2 Tape + 1 Alcohol + 2 blade = Medkit(1)")
     print("[4] : 2 Bottles + 3 Gun_powder = Bullets(3)")
-    print("\n[5] To leave")
+    print("[5] : 2 Bottles + 3 Tape = Silencer(2)")
+    print("\n[6] To leave")
     while True:
-        crafting_input = int(input(":"))
-        if crafting_input == 1 and inventory["Bottle"] >= 1 and inventory["Alcohol"] >= 2:  # Crafting for Molotov
-            inventory["Molotov"] += 1
-            print("You Craft one Molotov")
-            print("-1 Bottle")
-            print("-2 Alcohol")
-            print("+1 Molotov")
-            show_inventory()
-        elif crafting_input == 2 and inventory["Blade"] >= 1 and inventory["Tape"] >= 1:  # Crafting for Shiv
-            inventory["Shiv"] += 1
-            print("You Craft one Shiv")
-            print("-1 Blade")
-            print("-1 Tape")
-            print("+1 Shiv")
-            show_inventory()
+            try:
+                crafting_input = int(input(":"))
+                if crafting_input == 1 and inventory["Bottle"] >= 1 and inventory["Alcohol"] >= 2:  # Crafting for Molotov
+                    inventory["Bottle"] -= 1
+                    inventory["Alcohol"] -= 2
+                    inventory["Molotov"] += 1
+                    print("You Craft one Molotov")
+                    print("-1 Bottle")
+                    print("-2 Alcohol")
+                    print("+1 Molotov")
+                    show_inventory()
+                elif crafting_input == 2 and inventory["Blade"] >= 1 and inventory["Tape"] >= 1:  # Crafting for Shiv
+                    inventory["Shiv"] += 1
+                    inventory["Blade"] -= 1
+                    inventory["Tape"] -= 1
+                    print("You Craft one Shiv")
+                    print("-1 Blade")
+                    print("-1 Tape")
+                    print("+1 Shiv")
+                    show_inventory()
 
-        elif crafting_input == 3 and inventory["Tape"] >= 2 and inventory["Alcohol"] >= 1 and inventory["Blade"] >= 2:  # Crafting for Medkit
-            inventory["Medkit"] += 1
-            print("You Craft one Medkit")
-            print("-2 Tape")
-            print("-1 Alcohol")
-            print("-2 Blades")
-            print("+1 Medkits")
-            show_inventory()
+                elif crafting_input == 3 and inventory["Tape"] >= 2 and inventory["Alcohol"] >= 1 and inventory["Blade"] >= 2:  # Crafting for Medkit
+                    inventory["Medkit"] += 1
+                    inventory["Tape"] -= 2
+                    inventory["Alcohol"] -= 1
+                    inventory["Blade"] -= 2
+                    print("You Craft one Medkit")
+                    print("-2 Tape")
+                    print("-1 Alcohol")
+                    print("-2 Blades")
+                    print("+1 Medkits")
+                    show_inventory()
 
-        elif crafting_input == 4 and inventory["Bottle"] >= 2 and inventory["Gun_powder"] >= 3:  # Crafting for Bullets
-            inventory["Bullets"] += 3
-            print("You Craft 3 Bullets")
-            print("-2 Bottles")
-            print("-3 Gun powder")
-            print("+3 Bullets")
-            show_inventory()
-        elif crafting_input == 5:
-            return
+                elif crafting_input == 4 and inventory["Bottle"] >= 2 and inventory["Gun_powder"] >= 3:  # Crafting for Bullets
+                    inventory["Bottle"] -= 2
+                    inventory["Gun_powder"] -= 3
+                    inventory["Bullets"] += 3
+                    print("You Craft 3 Bullets")
+                    print("-2 Bottles")
+                    print("-3 Gun powder")
+                    print("+3 Bullets")
+                    show_inventory()
+                elif crafting_input == 5 and inventory["Bottle"] >= 2 and inventory["Tape"] >= 3: #Crafting for silencerS
+                    inventory["Bottle"] -= 2
+                    inventory["Tape"] -= 3
+                    inventory["Silencer"] += 2
+                    print("You craft 2 silencers")
+                    print("-2 Bottles")
+                    print("-3 Tape")
+                    print("+2 Silencers")
+                    show_inventory()
+
+                elif crafting_input == 6:
+                    return
+                else:
+                    print("Please input a valid number")
+
+            except ValueError:
+                print("Please input A number")
 
 # This is the loot fuctions this can be acted apon every location
 def loot(a):
@@ -167,14 +195,15 @@ def intro():
     #Reset all values
     inventory = {"Weapons": ["Gun"],
                  "Bullets": 10,
+                 "Silencer":0,
                  "Molotov": 0,
                  "Shiv": 0,
                  "Medkit": 0,
-                 "Bottle": 0,
-                 "Alcohol": 0,
-                 "Blade": 0,
-                 "Tape": 0,
-                 "Gun_powder": 0
+                 "Bottle": 3,
+                 "Alcohol": 4,
+                 "Blade": 2,
+                 "Tape": 1,
+                 "Gun_powder": 4
 
                  }
 
@@ -299,7 +328,6 @@ def intro():
     print("Game Loading")
     timer(2)
     part_1()
-
 
 def part_1():
     # Introduction
@@ -543,6 +571,145 @@ def combat_infe(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING
 
             except ValueError:
                 print("Input Error Please try again")
+
+def combat_scar(a):
+    player_health_gain = 0
+    global player_health
+    visable = False
+
+    for i in range(a):
+        combat.append(Scar)
+        print(combat[i]["Name"])
+    combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
+
+    while visable == False:
+        # Choses Attack
+        while True:
+            print("You can attack with")
+            print("1 : Gun *Noise(", inventory["Bullets"], "Bullets)")
+            print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
+            print("3 : Shiv(", inventory["Shiv"], "Shivs)")
+            print("4 : Medkit(", inventory["Medkit"], "Medkits)")
+
+            try:
+                attack = int(input(":"))
+
+                if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
+                    combat[0]["Health"] -= 4
+                    visable = True
+                    inventory["Bullets"] -= 1
+                    print("You make noise")
+                    timer(0.5)
+                    print("You shot a", combat[0]["Name"], "And dealt 4 damage")
+
+                elif attack == 2 and inventory["Molotov"] > 0:  # Attack with molotov
+                    combat[0]["Health"] -= 10
+                    visable = True
+                    inventory["Molotov"] -= 1
+                    print("You make noise")
+                    timer(0.5)
+                    print("You throw a molotov at a", combat[0]["Name"], "And dealt 10 Damage")
+
+                elif attack == 3 and inventory["Shiv"] > 0:  # Attack with shiv
+                    combat[0]["Health"] -= 20
+                    inventory["Shiv"] -= 1
+                    print("You shank a", combat[0]["Name"])
+
+
+                elif attack == 4 and inventory["Medkit"] > 0:  # MedKit
+                    if player_health < 15:
+                        player_health_gain += random.randint(2, 6)
+                        timer(0.5)
+                        print("You Gained", player_health_gain, "Health")
+                        player_health += player_health_gain
+
+                        inventory["Medkit"] -= 1
+                    else:
+                        print("You have max health")
+
+                else:
+                    print("You don't have any of that item >:(")
+                # If you INFECTED has less than 0 health
+                if combat[0]["Health"] <= 0:
+                    timer(0.5)
+                    print("You killed a", combat[0]["Name"])
+                    combat.pop(0)
+
+                # If you become visbale to the enemy they will attack
+                if visable == True:
+                    print("You get attacked by an", combat[0]["Name"])
+                    print("You take", combat[0]["Attack"], "Damage")
+
+                    player_health -= combat[0]["Attack"]
+
+                    print("You have", player_health, "Health")
+
+                # Death
+                if player_health <= 0:
+                    print("You die")
+                    combat.pop(0)
+                    timer(2)
+                    while True:
+                        try:
+                            print("Would you like to try again\n1 To Try again\n2 To Exit\n")
+                            try_again = int(input(":"))
+                            if try_again == 1:
+                                timer(1)
+                                intro()
+                            elif try_again == 2:
+                                print("Thank you for playing")
+                                exit(2)
+
+                        except ValueError:
+                            print("Please input a valid number")
+
+                # Win
+                if len(combat) == 1:
+                    combat.pop(0)
+                    print("You won")
+                    timer(1)
+                    return
+
+
+
+
+            except ValueError:
+                print("Input Error Please try again")
+def part_2():
+    print("As you move forwards you hear people talking")
+    timer(3.5)
+    print("You pear through a crack in a door and see the hostages")
+    timer(3.5)
+    print("Scar 1 - Does anyone know how the hell we get out of these tunnels")
+    timer(3.5)
+    print("Scar 2 - No dumbass were suck in here")
+    timer(3.5)
+    print("Scar 1 - There must be a way out")
+    timer(3.5)
+    print("Scar 2 - We could keep looking through the tunnels?")
+    timer(3.5)
+    print("Scar 1 - If you want to become infected then be my guest")
+    timer(3.5)
+    print("Scar 3 - Shut up your going to attracted them")
+    timer(3.5)
+    print(name,"- *clash")
+    timer(1)
+    print("You knocked over a bottle")
+    timer(3.5)
+    print("Scar 3 - *Wistle")
+    timer(3.5)
+    print("Scar 2 - *Wistle")
+    timer(3.5)
+    print("Scar 1 - *Wistle")
+    timer(3.5)
+    print("You regognise the first wistle it is code for flank them")
+    timer(3.5)
+    print("Be ready to enter combat")
+    timer(3.5)
+    print("You pick up a piece of glass on the floor")
+    print("+1 Shiv")
+    inventory["Shiv"] += 1
+
 # Main
 #Area(y value of the area, x value of the area, Area name, text a, text b)
 
