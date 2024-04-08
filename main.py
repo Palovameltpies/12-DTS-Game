@@ -6,9 +6,9 @@ import random
 
 #Infected stats
 INFECTED = [
-    {"Name": "Clicker", "Health": 8, "Attack": 5},
-    {"Name": "Runner", "Health": 4, "Attack": 4},
-    {"Name": "Bloater", "Health": 20, "Attack": 5
+    {"Name": "Clicker", "Health": random.randint(5,8), "Attack": random.randint(1,5)},
+    {"Name": "Runner", "Health": random.randint(2,6), "Attack": random.randint(1,5)},
+    {"Name": "Bloater", "Health": random.randint(10,20), "Attack": random.randint(1,5)
      }]
 
 #Scar Stats (WLF)
@@ -195,7 +195,7 @@ def intro():
     #Reset all values
     inventory = {"Weapons": ["Gun"],
                  "Bullets": 10,
-                 "Silencer":0,
+                 "Silencer":3,
                  "Molotov": 0,
                  "Shiv": 0,
                  "Medkit": 0,
@@ -466,9 +466,9 @@ def area_general(y,x,a,b,c):
         else:
             print("Invalid input")
 
-def combat_inf(a):   #COMBAT DISABLER
+def combat_infe(a):   #COMBAT DISABLER
     print(a)
-def combat_infe(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING COMBAT UNTILL FURTHER TESTING IS COMPLETE
+def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING COMBAT UNTILL FURTHER TESTING IS COMPLETE
     player_health_gain = 0
     global player_health
     visable = False
@@ -482,7 +482,7 @@ def combat_infe(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING
         # Choses Attack
         while True:
             print("You can attack with")
-            print("1 : Gun *Noise(", inventory["Bullets"], "Bullets)")
+            print("1 : Gun *Noise(", inventory["Bullets"], "Bullets) - ", inventory["Silencer"], "Silencers")
             print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
             print("3 : Shiv(", inventory["Shiv"], "Shivs)")
             print("4 : Medkit(", inventory["Medkit"], "Medkits)")
@@ -492,11 +492,16 @@ def combat_infe(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING
 
                 if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
                     combat[0]["Health"] -= 4
-                    visable = True
                     inventory["Bullets"] -= 1
-                    print("You make noise")
-                    timer(0.5)
-                    print("You shot a", combat[0]["Name"], "And dealt 4 damage")
+                    if inventory["Silencer"] > 0:
+                        print("You use a silencer")
+                        timer(0.5)
+                        inventory["Silencer"] -= 1
+                    else:
+                        visable = True
+                        print("You make noise")
+                        timer(0.5)
+                        print("You shot a", combat[0]["Name"], "And dealt 4 damage")
 
                 elif attack == 2 and inventory["Molotov"] > 0:  # Attack with molotov
                     combat[0]["Health"] -= 10
@@ -596,11 +601,16 @@ def combat_scar(a):
 
                 if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
                     combat[0]["Health"] -= 4
-                    visable = True
                     inventory["Bullets"] -= 1
-                    print("You make noise")
-                    timer(0.5)
-                    print("You shot a", combat[0]["Name"], "And dealt 4 damage")
+                    if inventory["Silencer"] > 0:
+                        print("You use a silencer")
+                        timer(0.5)
+                        inventory["Silencer"] -= 1
+                    else:
+                        visable = True
+                        print("You make noise")
+                        timer(0.5)
+                        print("You shot a", combat[0]["Name"], "And dealt 4 damage")
 
                 elif attack == 2 and inventory["Molotov"] > 0:  # Attack with molotov
                     combat[0]["Health"] -= 10
@@ -707,8 +717,10 @@ def part_2():
     print("Be ready to enter combat")
     timer(3.5)
     print("You pick up a piece of glass on the floor")
+    timer(0.5)
     print("+1 Shiv")
     inventory["Shiv"] += 1
+    combat_scar(3)
 
 # Main
 #Area(y value of the area, x value of the area, Area name, text a, text b)
