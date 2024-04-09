@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 6   note to self change this every time you upload to github
+#VERSON 6.1   note to self change this every time you upload to github
 
 #Infected stats
 INFECTED = [
@@ -598,7 +598,9 @@ def combat_scar(a):
             print("You can attack with")
             print("1 : Gun *Noise(", inventory["Bullets"], "Bullets)")
             print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
-            print("3 : Shiv(", inventory["Shiv"], "Shivs)")
+            if not visable:
+                print("3 : Shiv(", inventory["Shiv"], "Shivs)")
+            else:
             print("4 : Medkit(", inventory["Medkit"], "Medkits)")
 
             try:
@@ -625,7 +627,8 @@ def combat_scar(a):
                     timer(0.5)
                     print("You throw a molotov at a", combat[0]["Name"], "And dealt 10 Damage")
 
-                elif attack == 3 and inventory["Shiv"] > 0:  # Attack with shiv
+
+                elif attack == 3 and inventory["Shiv"] > 0 and visable == False:  # Attack with shiv
                     combat[0]["Health"] -= 20
                     inventory["Shiv"] -= 1
                     print("You shank a", combat[0]["Name"])
