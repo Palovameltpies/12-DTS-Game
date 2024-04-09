@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 4   note to self change this every time you upload to github
+#VERSON 6   note to self change this every time you upload to github
 
 #Infected stats
 INFECTED = [
@@ -21,7 +21,7 @@ Scar = {"Name":"Scar",
 #2,4 Is blocked at the start of the game due to not having the key therefor it is set as FALSE
 #3,5 Is blocked at the start of the game due to not having the chrowbar therefor it is set as FALSE
 
-area_adjacent  = [[False,False,False,False,False,False,False,False,False],#0
+area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                   [False,False,False,False,"12",False,False,False,False], #1
                   [False,False,False,False,False,False,False,"b14",False], #2
                   [False,"c14","c12","c11","10",False,"b12","b13",False], #3
@@ -179,7 +179,7 @@ def map():
 # Timer function, this shortens the amount of code needed when trying to run time.sleep
 def timer(a):
     print("...")
-    # time.sleep(a)
+    #time.sleep(a)
     return
 
 
@@ -254,7 +254,8 @@ def intro():
                 break
             if confirm == 2:
                 name = str(input("Please input a name\n:"))
-
+            else:
+                print("Please input a valid number")
         except ValueError:
             print("Please input a valid input")
 
@@ -262,57 +263,57 @@ def intro():
     while True:
         try:
             print("Would you like more to know how to play?")
-            more_info = int(input("1 to learn about movement\n2 to learn about combat\n3 to learn about crafting\n4 to leave"))
+            more_info = int(input("1 to learn about movement\n2 to learn about combat\n3 to learn about crafting\n4 to leave\n:"))
             if more_info == 1: #Learn about player movment
                 print("This game has an area system")
-                timer(1.5)
+                timer(3.5)
                 print("You can only move in 2 dimension (Up, Down, left, Right)")
-                timer(1.5)
+                timer(3.5)
                 print("When not in combat you are able to move in these directions at any time")
-                timer(1.5)
+                timer(3.5)
                 print("When choseing a direction to move in you press")
-                timer(1.5)
+                timer(3.5)
                 print("W for forward (up)")
-                timer(0.5)
+                timer(1.5)
                 print("S for Backwards (Down)")
-                timer(0.5)
+                timer(1.5)
                 print("D for Right")
-                timer(0.5)
+                timer(1.5)
                 print("A for Left")
-                timer(0.5)
+                timer(1.5)
                 print("Have Fun :)")
             elif more_info == 2:#Learn about combat
                 print("This game has combat")
-                timer(1.5)
+                timer(3.5)
                 print("When in combat you will be against a specific number of infected or scars")
-                timer(1.5)
+                timer(3.5)
                 print("Every turn you will be able to attack with a choice of 3 weapons")
-                timer(1.5)
-                print("Gun : Makes noise, low damage")
-                timer(0.5)
+                timer(3.5)
+                print("Gun : Makes noise (*Silencers make no noise), low damage")
+                timer(2.5)
                 print("Molotov : Makes noise, high damage, difficult to craft")
-                timer(0.5)
+                timer(2.5)
                 print("Shiv : Silence, instant kill, can only use when in stealth")
-                timer(0.5)
+                timer(2.5)
                 print("As long as you stay silent you will not be attacked and this means you won't take damage")
-                timer(1.5)
+                timer(2.5)
                 print("Once the enemy know your their you only get attacked by them one at a time")
-                timer(1.5)
+                timer(3.5)
             elif more_info == 3:# Learn about looting and crafting
                 print("In this game you will need to craft items to use in combat")
-                timer(1.5)
+                timer(3.5)
                 print("Every time you enter an area you are able to loot the area")
-                timer(1.5)
+                timer(3.5)
                 print("Note: you cannot loot the same area more than once")
-                timer(1.5)
-                print("You can find Bottles which can be used to craft bullets or molotov's")
-                timer(1.5)
+                timer(3.5)
+                print("You can find Bottles which can be used to craft bullets or molotov's or silencers")
+                timer(3.5)
                 print("You can find Alcohol which can be used to craft medkit's or molotov's")
-                timer(1.5)
-                print("You can find Blades which can be used to craft shivs and medkit's")
-                timer(1.5)
-                print("You can find Tape which can be used the craft shivs and medkit's")
-                timer(1.5)
+                timer(3.5)
+                print("You can find Blades which can be used to craft shivs or medkit's")
+                timer(3.5)
+                print("You can find Tape which can be used the craft shivs or medkit's or silencers")
+                timer(3.5)
                 print("You can find gun powder which can be used to craft bullets")
             else:
                 print("Good luck")
@@ -375,7 +376,6 @@ def part_1():
             area_1()
             break
         elif player_action == "L":
-            print("Test")
             loot("00")
             looted["00"] = True
         else:
@@ -453,6 +453,7 @@ def area_general(y,x,a,b,c):
             print("You find a piece of paper")
             timer(1)
             print("Its a map of the tunnel system")
+            timer(1)
             map()
             timer(2)
             has_map = True
@@ -481,15 +482,24 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
     while visable == False:
         # Choses Attack
         while True:
+            # Win
+            if len(combat) == 1:
+                combat.pop(0)
+                print("You won")
+                timer(1)
+                return
             print("You can attack with")
             print("1 : Gun *Noise(", inventory["Bullets"], "Bullets) - ", inventory["Silencer"], "Silencers")
             print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
-            print("3 : Shiv(", inventory["Shiv"], "Shivs)")
+            if not visable:
+                print("3 : Shiv(", inventory["Shiv"], "Shivs)")
+            else:
+                print("3 : Shiv CANNOT USE YOU HAVE BEEN SPOTTED")
             print("4 : Medkit(", inventory["Medkit"], "Medkits)")
 
             try:
-                attack = int(input(":"))
 
+                attack = int(input(":"))
                 if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
                     combat[0]["Health"] -= 4
                     inventory["Bullets"] -= 1
@@ -511,7 +521,7 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
                     timer(0.5)
                     print("You throw a molotov at a", combat[0]["Name"], "And dealt 10 Damage")
 
-                elif attack == 3 and inventory["Shiv"] > 0:  # Attack with shiv
+                elif attack == 3 and inventory["Shiv"] > 0 and visable == False:  # Attack with shiv
                     combat[0]["Health"] -= 20
                     inventory["Shiv"] -= 1
                     print("You shank a", combat[0]["Name"])
@@ -552,7 +562,7 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
                     timer(2)
                     while True:
                         try:
-                            print("Would you like to try again\n1 To Try again\n2 To Exit\n")
+                            print("Would you like to try again\n1 To Try again\n2 To Exit\n:")
                             try_again = int(input(":"))
                             if try_again == 1:
                                 timer(1)
@@ -564,12 +574,7 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
                         except ValueError:
                             print("Please input a valid number")
 
-                #Win
-                if len(combat) == 1:
-                    combat.pop(0)
-                    print("You won")
-                    timer(1)
-                    return
+
 
 
 
@@ -721,6 +726,33 @@ def part_2():
     print("+1 Shiv")
     inventory["Shiv"] += 1
     combat_scar(3)
+    print("Radio - Hey",name,"whats your 20?")
+    timer(3.5)
+    print(name,"- I just found the hostages")
+    timer(3.5)
+    print(name,"- I also took out the scars")
+    timer(3.5)
+    print("Radio - You did fucking what")
+    timer(3.5)
+    print("Radio - Get the hell out of there now")
+    timer(3.5)
+    print("You find a ladder that leads towards a man hole")
+    timer(0.5)
+    print("You climb the ladder")
+    timer(0.5)
+    print("You open the man hole and smell the fresh air")
+    timer(0.5)
+    print(name,"- Im out")
+    timer(4)
+    print("THANK YOU FOR PLAYING YOU WON")
+    while True:
+        play_again = str(input("Would you like to play again\nY for yes\nN for no\n"))
+        play_again = play_again.upper()
+        if play_again == "Y":
+            intro()
+        elif play_again == "N":
+            exit()
+
 
 # Main
 #Area(y value of the area, x value of the area, Area name, text a, text b)
@@ -861,7 +893,8 @@ while True:
         area_11()
     elif next_area == "12":
         area_12()
-
+    elif next_area == "13":
+        part_2()
 
     elif next_area == "a8":
         area_a8()
