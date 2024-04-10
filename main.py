@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 8.1   note to self change this every time you upload to github
+#VERSON 9   note to self change this every time you upload to github
 
 #Infected stats These are randomised
 INFECTED = [
@@ -37,81 +37,7 @@ area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                     #0    #1    #2   #3    #4    #5     #6   #7     #8
 
 name = ""
-#Holds all the information that is convayed to the player
-information = {"Movement": ["This game has an area system",
-                            "You can only move in 2 dimension (Up, Down, left, Right)",
-                            "When not in combat you are able to move in these directions at any time",
-                            "When choseing a direction to move in you press",
-                            "W for forward (up)",
-                            "S for Backwards (Down)",
-                            "D for Right",
-                            "A for Left",
-                            "Have Fun :)"],
-               "Combat": ["This game has combat",
-                          "When in combat you will be against a specific number of infected or scars",
-                          "Every turn you will be able to attack with a choice of 3 weapons",
-                          "Gun : Makes noise (*Silencers make no noise), low damage",
-                          "Molotov : Makes noise, high damage, difficult to craft",
-                          "Shiv : Silence, instant kill, can only use when in stealth",
-                          "As long as you stay silent you will not be attacked and this means you won't take damage",
-                          "Once the enemy know your their you only get attacked by them one at a time"],
-               "Crafting": ["In this game you will need to craft items to use in combat",
-                            "Every time you enter an area you are able to loot the area",
-                            "Note: you cannot loot the same area more than once",
-                            "You can find Bottles which can be used to craft bullets or molotov's or silencers",
-                            "You can find Alcohol which can be used to craft medkit's or molotov's",
-                            "You can find Blades which can be used to craft shivs or medkit's",
-                            "You can find Tape which can be used the craft shivs or medkit's or silencers",
-                            "You can find gun powder which can be used to craft bullets"]
-               }
-#Holds all the dialogue between charcters inside the game
-dialogue = {"Part 1":["Part 1 - The Tunnel",
-                      ("Radio - Hey,", name, "You there?"),
-                      (name, "- Yea im here?"),
-                      "Radio - So you remeber when the scars took out our western base?",
-                      (name, "- Yes they took those people hostages"),
-                      "Radio - Welllll, Issac had intell that the scars where keeping them hostage in these tunnels",
-                      (name, "- You're shitting me"),
-                      (name, "- Aren't these the tunnels where all those hoards bloaters are traped?"),
-                      "Radio - Yep",
-                      (name, "- And you sent me in, alone, with 10 bullets"),
-                      "Radio - Its fine we just need you to scout for us",
-                      "Radio - Also we trap the bloaters on the other side of the system, there blocked off by the train's",
-                      (name, "- Im not going this im going back to the stadium"),
-                      "Radio - If you come back you will be hung, Issac will not appreciate you leaving your post",
-                      (name, "- Just to scout?"),
-                      "Radio - Yes, just to scout",
-                      "Radio - Goodluck"],
-            "Part 2":["As you move forwards you hear people talking",
-                      "You pear through a crack in a door and see the hostages",
-                      "Scar 1 - Does anyone know how the hell we get out of these tunnels",
-                      "Scar 2 - No dumbass were suck in here",
-                      "Scar 1 - There must be a way out",
-                      "Scar 2 - We could keep looking through the tunnels?",
-                      "Scar 1 - If you want to become infected then be my guest",
-                      "Scar 3 - Shut up your going to attracted them",
-                      (name,"- *clash"),
-                      "You knocked over a bottle",
-                      "Scar 3 - *Wistle",
-                      "Scar 2 - *Wistle",
-                      "Scar 1 - *Wistle",
-                      "You regognise the first wistle it is code for flank them",
-                      "Be ready to enter combat",
-                      "You pick up a piece of glass on the floor"],
-            "Conclusion":[("Radio - Hey",name,"whats your 20?"),
-                         (name, "- I just found the hostages"),
-                         (name,"- I also took out the scars"),
-                         "Radio - You did fucking what",
-                         "Radio - Get the hell out of there now",
-                         "You find a ladder that leads towards a man hole",
-                         "You climb the ladder",
-                         "You open the man hole and smell the fresh air",
-                         (name,"- Im out")],
-            "Area 3":[(name,"- HEY THERE ARE INFECTED IN THE TUNNELS"),
-                     "Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*",
-                     (name,"- fuck there isn't a connection"),
-                     (name,"I need to find a way out of here")]
-            }
+
 #This function prints the inventory and how many itesm you have in the inventory
 def show_inventory():
     print("-----Inventory-----")
@@ -278,6 +204,9 @@ def intro():
     global current_area
     global has_map
     global name
+
+    global information
+    global dialogue
     #Reset all values so that when the player plays the game a 2nd time they don't keep items or can loot areas 2 times
     inventory = {"Weapons": ["Gun"],
                  "Bullets": 10,
@@ -332,10 +261,10 @@ def intro():
     current_area = "00"
     has_map = False
 
-    #Start
+    #Introduction
     print("Welcome to the Tunnels")
     print("PLEASE NOTE THAT EVERY INPUT WILL RESTART THE GAME IF INPUTED '000'")
-    #Gets the usersname
+    #Gets input for the usersname
     name = str(input("Please input a name\n:"))
     if name == "000": #Exit code
         intro()
@@ -355,6 +284,83 @@ def intro():
         except ValueError:
             print("Please input a valid input")
 
+
+    name = ""
+    # Holds all the information that is convayed  to the player
+    information = {"Movement": ["This game has an area system",
+                                "You can only move in 2 dimension (Up, Down, left, Right)",
+                                "When not in combat you are able to move in these directions at any time",
+                                "When choseing a direction to move in you press",
+                                "W for forward (up)",
+                                "S for Backwards (Down)",
+                                "D for Right",
+                                "A for Left",
+                                "Have Fun :)"],
+                   "Combat": ["This game has combat",
+                              "When in combat you will be against a specific number of infected or scars",
+                              "Every turn you will be able to attack with a choice of 3 weapons",
+                              "Gun : Makes noise (*Silencers make no noise), low damage",
+                              "Molotov : Makes noise, high damage, difficult to craft",
+                              "Shiv : Silence, instant kill, can only use when in stealth",
+                              "As long as you stay silent you will not be attacked and this means you won't take damage",
+                              "Once the enemy know your their you only get attacked by them one at a time"],
+                   "Crafting": ["In this game you will need to craft items to use in combat",
+                                "Every time you enter an area you are able to loot the area",
+                                "Note: you cannot loot the same area more than once",
+                                "You can find Bottles which can be used to craft bullets or molotov's or silencers",
+                                "You can find Alcohol which can be used to craft medkit's or molotov's",
+                                "You can find Blades which can be used to craft shivs or medkit's",
+                                "You can find Tape which can be used the craft shivs or medkit's or silencers",
+                                "You can find gun powder which can be used to craft bullets"]
+                   }
+    # Holds all the dialogue between characters inside the game
+    dialogue = {"Part 1": ["Part 1 - The Tunnel",
+                           ("Radio - Hey, "+ name+ " You there?"),
+                           (name+ " - Yea im here?"),
+                           "Radio - So you remeber when the scars took out our western base?",
+                           (name+ " - Yes they took those people hostages"),
+                           "Radio - Welllll, Issac had intell that the scars where keeping them hostage in these tunnels",
+                           (name+ " - You're shitting me"),
+                           (name+ " - Aren't these the tunnels where all those hoards bloaters are traped?"),
+                           "Radio - Yep",
+                           (name+ " - And you sent me in, alone, with 10 bullets"),
+                           "Radio - Its fine we just need you to scout for us",
+                           "Radio - Also we trap the bloaters on the other side of the system, there blocked off by the train's",
+                           (name+ " - Im not going this im going back to the stadium"),
+                           "Radio - If you come back you will be hung, Issac will not appreciate you leaving your post",
+                           (name+ " - Just to scout?"),
+                           "Radio - Yes, just to scout",
+                           "Radio - Goodluck"],
+                "Part 2": ["As you move forwards you hear people talking",
+                           "You pear through a crack in a door and see the hostages",
+                           "Scar 1 - Does anyone know how the hell we get out of these tunnels",
+                           "Scar 2 - No dumbass were suck in here",
+                           "Scar 1 - There must be a way out",
+                           "Scar 2 - We could keep looking through the tunnels?",
+                           "Scar 1 - If you want to become infected then be my guest",
+                           "Scar 3 - Shut up your going to attracted them",
+                           (name+ " - *clash"),
+                           "You knocked over a bottle",
+                           "Scar 3 - *Wistle",
+                           "Scar 2 - *Wistle",
+                           "Scar 1 - *Wistle",
+                           "You regognise the first wistle it is code for flank them",
+                           "Be ready to enter combat",
+                           "You pick up a piece of glass on the floor"],
+                "Conclusion": [("Radio - Hey "+ name+ " whats your 20?"),
+                               (name+ " - I just found the hostages"),
+                               (name+ " - I also took out the scars"),
+                               "Radio - You did fucking what",
+                               "Radio - Get the hell out of there now",
+                               "You find a ladder that leads towards a man hole",
+                               "You climb the ladder",
+                               "You open the man hole and smell the fresh air",
+                               (name+ " - Im out")],
+                "Area 3": [(name+ " - HEY THERE ARE INFECTED IN THE TUNNELS"),
+                           "Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*",
+                           (name+ " - fuck there isn't a connection"),
+                           (name+ " I need to find a way out of here")]
+                }
 
 
 
@@ -377,9 +383,7 @@ def intro():
             elif more_info == 3:# Learn about looting and crafting
                 for i in information["Crafting"]:
                     print(i)
-                    timer(3.5
-
-                          )
+                    timer(3.5)
             elif more_info == 000:
                 intro()
 
@@ -403,6 +407,7 @@ def intro():
 def part_1():
     # Introduction
 
+    #For loop that gets the first value inside the dialogue dictionary and prints it, this then loops until it has printed every piece of dialogue inside the list
     for i in dialogue["Part 1"]:
         print(i)
         timer(3.5)
@@ -412,13 +417,16 @@ def part_1():
         print("You can go forward into to tunnels(W) or look for loot(L)")
         player_action = str(input(":"))
         player_action = player_action.upper()
+        #Player "Starts the game" by moving forwards them into area 1
         if player_action == "W":
             area_1()
             break
+        #Loots area 00
         elif player_action == "L":
             loot("00")
             looted["00"] = True
 
+        #Exit code
         elif player_action == "000":
             intro()
         else:
@@ -442,6 +450,8 @@ def area_general(y,x,a,b,c):
     #Checks if the current area the player is in has adjacent areas by checking the Nested list
     while True:
 
+        #If the Value in front of the current area inside area_adjacent has a value other than False it tells the player they can move in that direction,
+        #This also runs for every other direction, x and y axis
         if area_adjacent[y-1][x]:
             print("You see a tunnel forward(W)\n")
 
@@ -454,7 +464,7 @@ def area_general(y,x,a,b,c):
         if area_adjacent[y+1][x]:
             print("You can go backwards(S)\n")
 
-        #If they player dons't have the map they can find it
+        #If they player dosen't have the map they can find it
         if has_map == False:
             print("You can look around(E)")
 
@@ -464,16 +474,17 @@ def area_general(y,x,a,b,c):
 
         print("You can craft (Q)")
 
-
+        #Gets the players action for turn Eg, Craft, loot, move
         player_action = str(input(":"))
-        player_action = player_action.upper()
+        player_action = player_action.upper()  #Makes the players actin upper case
 
-        #Movment for the player
+        #Movment for the player, First it checks if the area adjancent has a value, if it does then it checks if the player inputed that direction,
+        #Once it has checked if it can move there and the player wants to move there it prints the direction they more and sets next_area to the adjacent area's value eg "c12"
         if area_adjacent[y-1][x]:
             if player_action == "W":
                 print("Forward")
                 next_area = area_adjacent[y-1][x]
-                return
+                return #Returns the player to main, this then means that the "Next_area" is different and it will run Main differently
 
         if area_adjacent[y][x-1]:
             if player_action == "A":
@@ -492,10 +503,12 @@ def area_general(y,x,a,b,c):
                 print("Right")
                 next_area = area_adjacent[y][x+1]
                 return
+
+
         if player_action == "000": #Exit code
             intro()
 
-        #You find the map
+        #You find the map if the player dosn't have the map and it was their action
         if player_action == "E" and has_map == False:
             print("You look around")
             timer(2)
@@ -505,7 +518,7 @@ def area_general(y,x,a,b,c):
             timer(1)
             map()
             timer(2)
-            has_map = True
+            has_map = True #Makes sure the player cannot find the map twice
         #Loots
         elif player_action == "L":
             loot(current_area)
@@ -516,18 +529,27 @@ def area_general(y,x,a,b,c):
         else:
             print("Invalid input")
 
-def combat_infe(a):   #COMBAT DISABLER for testing the game without combat
-    print(a)
-def combat_inf(a):  # Combat against INFECTED
+def combat_func(a,b):  # Combat
     #Rests combat based variables
     player_health_gain = 0
     global player_health
+    global INFECTED
+    global Scar
+    combat = []
     visable = False
 
     #Gets a random amount of infected enemys and appends them into a list (a = number of enemys)
-    for i in range(a):
-        combat.append(INFECTED[random.randint(0, 2)])
-        print(combat[i]["Name"])
+    #If b == "infe" combat gets appened with infected enemies
+    if b == "infe":
+        for i in range(a):
+            combat.append(INFECTED[random.randint(0, 2)])
+            print(combat[i]["Name"])
+    #If b == "scar" combat gets appened with scars
+
+    if b == "scar":
+        for i in range(a):
+            combat.append(Scar)
+            print(combat[i]["Name"])
 
     #To make sure when you kill all the enemys it dosn't give you an index out of range error
     combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
@@ -545,23 +567,23 @@ def combat_inf(a):  # Combat against INFECTED
             print("You can attack with")
             print("1 : Gun *Noise(", inventory["Bullets"], "Bullets) - ", inventory["Silencer"], "Silencers")
             print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
-            if not visable:
+            if not visable: #If the player is visable they cannot use the SHIV
                 print("3 : Shiv(", inventory["Shiv"], "Shivs)")
             else:
                 print("3 : Shiv CANNOT USE YOU HAVE BEEN SPOTTED")
             print("4 : Medkit(", inventory["Medkit"], "Medkits)")
 
             try:
-
+                #Gets the players attack choice set into the variable of "Attack"
                 attack = int(input(":"))
                 if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
-                    combat[0]["Health"] -= 4
-                    inventory["Bullets"] -= 1
-                    if inventory["Silencer"] > 0:
+                    combat[0]["Health"] -= 4 #Removes health from the enemy
+                    inventory["Bullets"] -= 1 #Uses that item
+                    if inventory["Silencer"] > 0: #If they have a silencer
                         print("You use a silencer")
                         timer(0.5)
                         inventory["Silencer"] -= 1
-                    else:
+                    else:# If they don't have a silencer
                         visable = True
                         print("You make noise")
                         timer(0.5)
@@ -591,7 +613,7 @@ def combat_inf(a):  # Combat against INFECTED
                         inventory["Medkit"] -= 1
                     else:
                         print("You have max health")
-                elif attack == 000:
+                elif attack == 000: #Exit code
                     intro()
 
                 else:
@@ -600,7 +622,7 @@ def combat_inf(a):  # Combat against INFECTED
                 if combat[0]["Health"] <= 0:
                     timer(0.5)
                     print("You killed a", combat[0]["Name"])
-                    combat.pop(0)
+                    combat.pop(0) #Removes the infected from the combat list
 
                 #If you become visbale to the enemy they will attack
                 if visable == True:
@@ -639,126 +661,6 @@ def combat_inf(a):  # Combat against INFECTED
             except ValueError:
                 print("Input Error Please try again")
 
-def combat_scar(a): #Combat Against Scars
-    #Rests variables
-    player_health_gain = 0
-    global player_health
-    visable = False
-
-    #Adds a amount of scars into the combat list
-    for i in range(a):
-        combat.append(Scar)
-        print(combat[i]["Name"])
-    combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
-
-    while visable == False:
-        # Choses Attack
-        while True:
-            # Win
-            if len(combat) == 1:
-                combat.pop(0)
-                print("You won")
-                timer(1)
-                return
-
-            print("You can attack with")
-            print("1 : Gun *Noise(", inventory["Bullets"], "Bullets)")
-            print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
-            if not visable:
-                print("3 : Shiv(", inventory["Shiv"], "Shivs)")
-            else:
-                print("3 : Shiv CANNOT USE YOU HAVE BEEN SPOTTED")
-            print("4 : Medkit(", inventory["Medkit"], "Medkits)")
-
-            try:
-                attack = int(input(":"))
-
-                if attack == 1 and inventory["Bullets"] > 0:  # Attack with gun
-                    combat[0]["Health"] -= 4
-                    inventory["Bullets"] -= 1
-                    if inventory["Silencer"] > 0:
-                        print("You use a silencer")
-                        timer(0.5)
-                        inventory["Silencer"] -= 1
-                    else:
-                        visable = True
-                        print("You make noise")
-                        timer(0.5)
-                        print("You shot a", combat[0]["Name"], "And dealt 4 damage")
-
-                elif attack == 2 and inventory["Molotov"] > 0:  # Attack with molotov
-                    combat[0]["Health"] -= 10
-                    visable = True
-                    inventory["Molotov"] -= 1
-                    print("You make noise")
-                    timer(0.5)
-                    print("You throw a molotov at a", combat[0]["Name"], "And dealt 10 Damage")
-
-
-                elif attack == 3 and inventory["Shiv"] > 0 and visable == False:  # Attack with shiv
-                    combat[0]["Health"] -= 20
-                    inventory["Shiv"] -= 1
-                    print("You shank a", combat[0]["Name"])
-
-
-                elif attack == 4 and inventory["Medkit"] > 0:  # MedKit
-                    if player_health < 15:
-                        player_health_gain += random.randint(2, 6)
-                        timer(0.5)
-                        print("You Gained", player_health_gain, "Health")
-                        player_health += player_health_gain
-
-                        inventory["Medkit"] -= 1
-                    else:
-                        print("You have max health")
-                elif attack == 000:
-                    intro()
-
-                else:
-                    print("You don't have any of that item >:(")
-                # If you INFECTED has less than 0 health
-                if combat[0]["Health"] <= 0:
-                    timer(0.5)
-                    print("You killed a", combat[0]["Name"])
-                    combat.pop(0)
-
-                # If you become visbale to the enemy they will attack
-                if visable == True:
-                    print("You get attacked by an", combat[0]["Name"])
-                    print("You take", combat[0]["Attack"], "Damage")
-
-                    player_health -= combat[0]["Attack"]
-
-                    print("You have", player_health, "Health")
-
-                # Death
-                if player_health <= 0:
-                    print("You die")
-                    combat.pop(0)
-                    timer(2)
-                    while True:
-                        try:
-                            print("Would you like to try again\n1 To Try again\n2 To Exit\n")
-                            try_again = int(input(":"))
-                            if try_again == 1 or try_again == 000:
-                                timer(1)
-                                intro()
-                            elif try_again == 2:
-                                print("Thank you for playing")
-                                exit(2)
-
-                        except ValueError:
-                            print("Please input a valid number")
-
-
-
-
-
-
-            except ValueError:
-                print("Input Error Please try again")
-
-
 
 #Part 2 this is when you find the hostages at the end of the game
 def part_2():
@@ -768,7 +670,7 @@ def part_2():
 
     print("+1 Shiv")
     inventory["Shiv"] += 1
-    combat_scar(3)
+    combat_func(3,"scar")
 
     for i in dialogue["Conclusion"]:
         print(i)
@@ -789,7 +691,7 @@ def area_1():
 def area_2():
     area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "Hear A noise Ahead")
 def area_3(): #Has Combat
-    combat_inf(1)
+    combat_func(1,"infe")
 
 
     #Progress in the story
@@ -807,7 +709,7 @@ def area_5():
     area_general(8, 4, "05", "You can still see far ahead of you ", "This causes you to feel very alone")
 
 def area_6(): #Has Combat
-    combat_inf(2)
+    combat_func(2,"infe")
     area_general(7, 4,"06", "The amount of infected causes you to feel worried", "You find a fire still smoking, people are nearby")
 
 def area_7():
@@ -817,7 +719,7 @@ def area_8():
     area_general(5, 4, "08", "You hear a noise ahead, could it be the scars?", "")
 
 def area_9(): #Has Combat
-    combat_inf(2)
+    combat_func(2,"infe")
     area_general(4, 4, "09", "", "")
 
 def area_10():
@@ -836,7 +738,7 @@ def area_a8():
     area_general(6, 5, "a8", "Putting on your mask you walk through the spores", "")
 
 def area_a9(): #Has Combat
-    combat_inf(3)
+    combat_func(3,"infe")
     print("----SPORES----")
     area_general(6, 6, "a9", "These tunnel are crawling with infected you need to figure out where the scars have taken the hosteges", "And get the hell out of here")
 
@@ -849,7 +751,7 @@ def area_a11():
     area_general(5, 7, "a11", "Even more noise ahead expect infected as you are still inside spores", "")
 
 def area_a12(): #Has Combat
-    combat_inf(2)
+    combat_func(2,"infe")
     print("----SPORES----")
     area_general(4, 7, "a12", "Fucking infected", "The spores seem to end ahead of you")
 
@@ -866,7 +768,7 @@ def area_b13():
     area_general(3, 7, "b13", "You see spores behind you", "")
 
 def area_b14(): #Has Combat
-    combat_inf(2)
+    combat_func(2,"infe")
     area_general(2, 7, "b14", "You find a key? I wonder what it is for?", "")
     area_adjacent[2][4] = "11"
 
@@ -881,7 +783,7 @@ def area_c13():
     area_general(4, 2, "c13", "", "")
 
 def area_c14(): #Has Combat
-    combat_inf(2)
+    combat_func(2,"infe")
     area_general(3, 1, "c14", "One of the infected had a crowbar on them", "What could this help open")
     area_adjacent[3][5] = "b11"
 
