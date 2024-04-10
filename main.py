@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 8   note to self change this every time you upload to github
+#VERSON 8.1   note to self change this every time you upload to github
 
 #Infected stats These are randomised
 INFECTED = [
