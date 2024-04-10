@@ -36,7 +36,7 @@ area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                   [False,False,False,False,False,False,False,False,False]] #12
                     #0    #1    #2   #3    #4    #5     #6   #7     #8
 
-
+name = ""
 #Holds all the information that is convayed to the player
 information = {"Movement": ["This game has an area system",
                             "You can only move in 2 dimension (Up, Down, left, Right)",
@@ -365,18 +365,18 @@ def intro():
             more_info = int(input("1 to learn about movement\n2 to learn about combat\n3 to learn about crafting\n4 to leave\n:"))
 
             if more_info == 1: #Learn about player movment
-                for i in range[information["Movement"]]:
-                    print(information["Movement"][i])
+                for i in information["Movement"]:
+                    print(i)
                     timer(3.5)
 
             elif more_info == 2:#Learn about combat
-                for i in range[information["Combat"]]:
-                    print(information["Combat"][i])
+                for i in information["Combat"]:
+                    print(i)
                     timer(3.5)
 
             elif more_info == 3:# Learn about looting and crafting
-                for i in range[information["Crafting"]]:
-                    print(information["Crafting"][i])
+                for i in information["Crafting"]:
+                    print(i)
                     timer(3.5
 
                           )
@@ -403,8 +403,8 @@ def intro():
 def part_1():
     # Introduction
 
-    for i in range(dialogue["Part 1"]):
-        print(dialogue["Part 1"][i])
+    for i in dialogue["Part 1"]:
+        print(i)
         timer(3.5)
 
     #Area 00 (Before you enter the tunnels)
@@ -762,16 +762,16 @@ def combat_scar(a): #Combat Against Scars
 
 #Part 2 this is when you find the hostages at the end of the game
 def part_2():
-    for i in range(dialogue["Part 2"]):
-        print(dialogue["Part 2"][i])
+    for i in dialogue["Part 2"]:
+        print(i)
         timer(3.5)
 
     print("+1 Shiv")
     inventory["Shiv"] += 1
     combat_scar(3)
 
-    for i in range(dialogue["Conclusion"]):
-        print(dialogue["Conclusion"][i])
+    for i in dialogue["Conclusion"]:
+        print(i)
         timer(3.5)
 
     print("THANK YOU FOR PLAYING YOU WON")
@@ -793,8 +793,8 @@ def area_3(): #Has Combat
 
 
     #Progress in the story
-    for i in range(dialogue["Area 3"]):
-        print(dialogue["Area 3"][i])
+    for i in dialogue["Area 3"]:
+        print(i)
         timer(3.5)
 
     area_general(9, 3, "03", "", "")
