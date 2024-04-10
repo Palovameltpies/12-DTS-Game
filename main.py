@@ -2,13 +2,13 @@ import time
 import random
 
 
-#VERSON 6.1   note to self change this every time you upload to github
+#VERSON 7   note to self change this every time you upload to github
 
-#Infected stats
+#Infected stats These are randomised
 INFECTED = [
-    {"Name": "Clicker", "Health": random.randint(5,8), "Attack": random.randint(1,5)},
-    {"Name": "Runner", "Health": random.randint(2,6), "Attack": random.randint(1,5)},
-    {"Name": "Bloater", "Health": random.randint(10,20), "Attack": random.randint(1,5)
+    {"Name": "Clicker", "Health": random.randint(5,8), "Attack": random.randint(3,5)},
+    {"Name": "Runner", "Health": random.randint(2,6), "Attack": random.randint(3,5)},
+    {"Name": "Bloater", "Health": random.randint(10,20), "Attack": random.randint(2,5)
      }]
 
 #Scar Stats (WLF)
@@ -20,7 +20,7 @@ Scar = {"Name":"Scar",
 
 #2,4 Is blocked at the start of the game due to not having the key therefor it is set as FALSE
 #3,5 Is blocked at the start of the game due to not having the chrowbar therefor it is set as FALSE
-
+#This holds the values of the map, False statments are area's without any Value and Area's with a number is the ID of that area
 area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                   [False,False,False,False,"12",False,False,False,False], #1
                   [False,False,False,False,False,False,False,"b14",False], #2
@@ -34,8 +34,38 @@ area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                   [False,False,False,"02",False,False,False,False,False], #10
                   [False,False,False,"01",False,False,False,False,False], #11
                   [False,False,False,False,False,False,False,False,False]] #12
-                    #0    #1    #2   #3    #4    #5     #6   #7     #8S
+                    #0    #1    #2   #3    #4    #5     #6   #7     #8
 
+information = {"Movement": ["This game has an area system",
+                            "You can only move in 2 dimension (Up, Down, left, Right)",
+                            "When not in combat you are able to move in these directions at any time",
+                            "When choseing a direction to move in you press",
+                            "W for forward (up)",
+                            "S for Backwards (Down)",
+                            "D for Right",
+                            "A for Left",
+                            "Have Fun :)"],
+
+               "Combat": ["This game has combat",
+                          "When in combat you will be against a specific number of infected or scars",
+                          "Every turn you will be able to attack with a choice of 3 weapons",
+                          "Gun : Makes noise (*Silencers make no noise), low damage",
+                          "Molotov : Makes noise, high damage, difficult to craft",
+                          "Shiv : Silence, instant kill, can only use when in stealth",
+                          "As long as you stay silent you will not be attacked and this means you won't take damage",
+                          "Once the enemy know your their you only get attacked by them one at a time"],
+
+               "Crafting": ["In this game you will need to craft items to use in combat",
+                            "Every time you enter an area you are able to loot the area",
+                            "Note: you cannot loot the same area more than once",
+                            "You can find Bottles which can be used to craft bullets or molotov's or silencers",
+                            "You can find Alcohol which can be used to craft medkit's or molotov's",
+                            "You can find Blades which can be used to craft shivs or medkit's",
+                            "You can find Tape which can be used the craft shivs or medkit's or silencers",
+                            "You can find gun powder which can be used to craft bullets"]
+
+               }
+#This function prints the inventory and how many itesm you have in the inventory
 def show_inventory():
     print("-----Inventory-----")
     for i in range(len(inventory["Weapons"])):
@@ -46,6 +76,8 @@ def show_inventory():
     print(inventory["Shiv"], ": Shivs")
     print(inventory["Medkit"], ": MedKits")
 
+
+#This function opens the crafting system
 def crafting():
     show_inventory()
     print("-----Resorces-----")
@@ -61,6 +93,8 @@ def crafting():
     print("[4] : 2 Bottles + 3 Gun_powder = Bullets(3)")
     print("[5] : 2 Bottles + 3 Tape = Silencer(2)")
     print("\n[6] To leave")
+
+    #Crafting loop, untill the user crafts an item or leaves it will ask them what they want to craft
     while True:
             try:
                 crafting_input = int(input(":"))
@@ -114,6 +148,11 @@ def crafting():
                     print("+2 Silencers")
                     show_inventory()
 
+                #Exit code
+                elif crafting_input == 000:
+                    intro()
+
+                #Leaveing the function
                 elif crafting_input == 6:
                     return
                 else:
@@ -127,8 +166,8 @@ def loot(a):
     # Checks if the area has been looted before
     if looted[str(a)] == False:
         for index in range(2):
-            item_pick = random.randint(1, 5)
-            item_amount = random.randint(1, 3)
+            item_pick = random.randint(1, 5)  #Picks what item to find
+            item_amount = random.randint(1, 3)  #Picks how many of that item they find
             # Bullets
             if item_pick == 1:
                 inventory["Bullets"] += item_amount
@@ -182,7 +221,7 @@ def timer(a):
     #time.sleep(a)
     return
 
-
+#The start of the game
 def intro():
     global inventory
     global looted
@@ -192,7 +231,7 @@ def intro():
     global current_area
     global has_map
     global name
-    #Reset all values
+    #Reset all values so that when the player plays the game a 2nd time they don't keep items or can loot areas 2 times
     inventory = {"Weapons": ["Gun"],
                  "Bullets": 10,
                  "Silencer":3,
@@ -245,81 +284,62 @@ def intro():
     next_area = "00"
     current_area = "00"
     has_map = False
-    print("Welcome to GAME NAME HERE")
+
+    #Start
+    print("Welcome to the Tunnels")
+    print("PLEASE NOTE THAT EVERY INPUT WILL RESTART THE GAME IF INPUTED '000'")
+    #Gets the usersname
     name = str(input("Please input a name\n:"))
+    if name == "000": #Exit code
+        intro()
     while True:
         try:
+            #Confrims if the play would like to keep their name or change it
             confirm = int(input("1 To Confirm\n2 To Input a different name\n:"))
             if confirm == 1:
                 break
             if confirm == 2:
                 name = str(input("Please input a name\n:"))
+            if confirm == 000: #Exit code
+                intro()
             else:
                 print("Please input a valid number")
+
         except ValueError:
             print("Please input a valid input")
 
 
+
+
+    #Additional information for the player
     while True:
         try:
             print("Would you like more to know how to play?")
             more_info = int(input("1 to learn about movement\n2 to learn about combat\n3 to learn about crafting\n4 to leave\n:"))
+
             if more_info == 1: #Learn about player movment
-                print("This game has an area system")
-                timer(3.5)
-                print("You can only move in 2 dimension (Up, Down, left, Right)")
-                timer(3.5)
-                print("When not in combat you are able to move in these directions at any time")
-                timer(3.5)
-                print("When choseing a direction to move in you press")
-                timer(3.5)
-                print("W for forward (up)")
-                timer(1.5)
-                print("S for Backwards (Down)")
-                timer(1.5)
-                print("D for Right")
-                timer(1.5)
-                print("A for Left")
-                timer(1.5)
-                print("Have Fun :)")
+                for i in range[information["Movement"]]:
+                    print(information["Movement"][i])
+                    timer(3.5)
+
             elif more_info == 2:#Learn about combat
-                print("This game has combat")
-                timer(3.5)
-                print("When in combat you will be against a specific number of infected or scars")
-                timer(3.5)
-                print("Every turn you will be able to attack with a choice of 3 weapons")
-                timer(3.5)
-                print("Gun : Makes noise (*Silencers make no noise), low damage")
-                timer(2.5)
-                print("Molotov : Makes noise, high damage, difficult to craft")
-                timer(2.5)
-                print("Shiv : Silence, instant kill, can only use when in stealth")
-                timer(2.5)
-                print("As long as you stay silent you will not be attacked and this means you won't take damage")
-                timer(2.5)
-                print("Once the enemy know your their you only get attacked by them one at a time")
-                timer(3.5)
+                for i in range[information["Combat"]]:
+                    print(information["Combat"][i])
+                    timer(3.5)
+
             elif more_info == 3:# Learn about looting and crafting
-                print("In this game you will need to craft items to use in combat")
-                timer(3.5)
-                print("Every time you enter an area you are able to loot the area")
-                timer(3.5)
-                print("Note: you cannot loot the same area more than once")
-                timer(3.5)
-                print("You can find Bottles which can be used to craft bullets or molotov's or silencers")
-                timer(3.5)
-                print("You can find Alcohol which can be used to craft medkit's or molotov's")
-                timer(3.5)
-                print("You can find Blades which can be used to craft shivs or medkit's")
-                timer(3.5)
-                print("You can find Tape which can be used the craft shivs or medkit's or silencers")
-                timer(3.5)
-                print("You can find gun powder which can be used to craft bullets")
+                for i in range[information["Crafting"]]:
+                    print(information["Crafting"][i])
+                    timer(3.5
+
+                          )
+            elif more_info == 000:
+                intro()
+
             else:
                 print("Good luck")
                 timer(1.5)
                 break
-
 
 
         except ValueError:
@@ -330,6 +350,9 @@ def intro():
     timer(2)
     part_1()
 
+diaolgue = {}
+
+#Start of the game
 def part_1():
     # Introduction
     print("Part 1 - The Tunnel")
@@ -368,6 +391,8 @@ def part_1():
     print("Radio - Yes, just to scout")
     timer(3.5)
     print("Radio - Goodluck")
+
+    #Area 00 (Before you enter the tunnels)
     while True:
         print("You can go forward into to tunnels(W) or look for loot(L)")
         player_action = str(input(":"))
@@ -378,23 +403,28 @@ def part_1():
         elif player_action == "L":
             loot("00")
             looted["00"] = True
+
+        elif player_action == "000":
+            intro()
         else:
             print("Invalid input Please try again")
 
-#Area(y value of the area, x value of the area, Area name, text a, text b,
+#Area(y = y value of the area, x = x value of the area, a =  Area name, b =  text a, c = text b )
 def area_general(y,x,a,b,c):
     global next_area
     global has_map
     current_area = a
     current_location = [x,y]
     print(current_area)
+    #If the player has the map then it prints
     if has_map == True:
         map()
 
-
+    #Prints the text A and Text B
     print(b)
     print(c)
-    #y = 11 , x = 3
+
+    #Checks if the current area the player is in has adjacent areas by checking the Nested list
     while True:
 
         if area_adjacent[y-1][x]:
@@ -409,17 +439,19 @@ def area_general(y,x,a,b,c):
         if area_adjacent[y+1][x]:
             print("You can go backwards(S)\n")
 
-
+        #If they player dons't have the map they can find it
         if has_map == False:
             print("You can look around(E)")
 
+        #If the player has looted the area it checks
         if looted[current_area] == False:
             print("You can loot(L)")
 
         print("You can craft (Q)")
 
+
         player_action = str(input(":"))
-        player_action = player_action.upper()  #10 , 3
+        player_action = player_action.upper()
 
         #Movment for the player
         if area_adjacent[y-1][x]:
@@ -445,6 +477,8 @@ def area_general(y,x,a,b,c):
                 print("Right")
                 next_area = area_adjacent[y][x+1]
                 return
+        if player_action == "000": #Exit code
+            intro()
 
         #You find the map
         if player_action == "E" and has_map == False:
@@ -467,18 +501,23 @@ def area_general(y,x,a,b,c):
         else:
             print("Invalid input")
 
-def combat_infe(a):   #COMBAT DISABLER
+def combat_infe(a):   #COMBAT DISABLER for testing the game without combat
     print(a)
-def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING COMBAT UNTILL FURTHER TESTING IS COMPLETE
+def combat_inf(a):  # Combat against INFECTED
+    #Rests combat based variables
     player_health_gain = 0
     global player_health
     visable = False
 
+    #Gets a random amount of infected enemys and appends them into a list (a = number of enemys)
     for i in range(a):
         combat.append(INFECTED[random.randint(0, 2)])
         print(combat[i]["Name"])
+
+    #To make sure when you kill all the enemys it dosn't give you an index out of range error
     combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
 
+    #If the player is not visable
     while visable == False:
         # Choses Attack
         while True:
@@ -537,6 +576,8 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
                         inventory["Medkit"] -= 1
                     else:
                         print("You have max health")
+                elif attack == 000:
+                    intro()
 
                 else:
                     print("You don't have any of that item >:(")
@@ -560,11 +601,12 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
                     print("You die")
                     combat.pop(0)
                     timer(2)
+                    #Try again, asks the player if they would like to leave or try again
                     while True:
                         try:
                             print("Would you like to try again\n1 To Try again\n2 To Exit\n:")
                             try_again = int(input(":"))
-                            if try_again == 1:
+                            if try_again == 1 or try_again == 000:
                                 timer(1)
                                 intro()
                             elif try_again == 2:
@@ -582,11 +624,13 @@ def combat_inf(a):  # Combat against INFECTED   MARKING ERROR AS I AM DISABLING 
             except ValueError:
                 print("Input Error Please try again")
 
-def combat_scar(a):
+def combat_scar(a): #Combat Against Scars
+    #Rests variables
     player_health_gain = 0
     global player_health
     visable = False
 
+    #Adds a amount of scars into the combat list
     for i in range(a):
         combat.append(Scar)
         print(combat[i]["Name"])
@@ -595,12 +639,20 @@ def combat_scar(a):
     while visable == False:
         # Choses Attack
         while True:
+            # Win
+            if len(combat) == 1:
+                combat.pop(0)
+                print("You won")
+                timer(1)
+                return
+
             print("You can attack with")
             print("1 : Gun *Noise(", inventory["Bullets"], "Bullets)")
             print("2 : Molotov *Noise(", inventory["Molotov"], "Molotovs)")
             if not visable:
                 print("3 : Shiv(", inventory["Shiv"], "Shivs)")
             else:
+                print("3 : Shiv CANNOT USE YOU HAVE BEEN SPOTTED")
             print("4 : Medkit(", inventory["Medkit"], "Medkits)")
 
             try:
@@ -644,6 +696,8 @@ def combat_scar(a):
                         inventory["Medkit"] -= 1
                     else:
                         print("You have max health")
+                elif attack == 000:
+                    intro()
 
                 else:
                     print("You don't have any of that item >:(")
@@ -671,7 +725,7 @@ def combat_scar(a):
                         try:
                             print("Would you like to try again\n1 To Try again\n2 To Exit\n")
                             try_again = int(input(":"))
-                            if try_again == 1:
+                            if try_again == 1 or try_again == 000:
                                 timer(1)
                                 intro()
                             elif try_again == 2:
@@ -681,18 +735,15 @@ def combat_scar(a):
                         except ValueError:
                             print("Please input a valid number")
 
-                # Win
-                if len(combat) == 1:
-                    combat.pop(0)
-                    print("You won")
-                    timer(1)
-                    return
+
 
 
 
 
             except ValueError:
                 print("Input Error Please try again")
+
+#Part 2 this is when you find the hostages at the end of the game
 def part_2():
     print("As you move forwards you hear people talking")
     timer(3.5)
@@ -751,19 +802,12 @@ def part_2():
     while True:
         play_again = str(input("Would you like to play again\nY for yes\nN for no\n"))
         play_again = play_again.upper()
-        if play_again == "Y":
+        if play_again == "Y" or play_again == "000":
             intro()
         elif play_again == "N":
             exit()
 
-
-# Main
-#Area(y value of the area, x value of the area, Area name, text a, text b)
-
-
-
-
-
+#Creates an function for every area in the game
 def area_1():
     area_general(11, 3, "01", "You move forwards into the tunnels", "You don't see anything")
 def area_2():
@@ -869,8 +913,9 @@ def area_c14(): #Has Combat
     area_adjacent[3][5] = "b11"
 
 
-
+#MAIN
 intro()
+#next_area changes when the user inputs in the general area function
 while True:
     if next_area == "01":
         area_1()
