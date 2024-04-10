@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 7   note to self change this every time you upload to github
+#VERSON 8   note to self change this every time you upload to github
 
 #Infected stats These are randomised
 INFECTED = [
@@ -36,6 +36,8 @@ area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                   [False,False,False,False,False,False,False,False,False]] #12
                     #0    #1    #2   #3    #4    #5     #6   #7     #8
 
+
+#Holds all the information that is convayed to the player
 information = {"Movement": ["This game has an area system",
                             "You can only move in 2 dimension (Up, Down, left, Right)",
                             "When not in combat you are able to move in these directions at any time",
@@ -45,7 +47,6 @@ information = {"Movement": ["This game has an area system",
                             "D for Right",
                             "A for Left",
                             "Have Fun :)"],
-
                "Combat": ["This game has combat",
                           "When in combat you will be against a specific number of infected or scars",
                           "Every turn you will be able to attack with a choice of 3 weapons",
@@ -54,7 +55,6 @@ information = {"Movement": ["This game has an area system",
                           "Shiv : Silence, instant kill, can only use when in stealth",
                           "As long as you stay silent you will not be attacked and this means you won't take damage",
                           "Once the enemy know your their you only get attacked by them one at a time"],
-
                "Crafting": ["In this game you will need to craft items to use in combat",
                             "Every time you enter an area you are able to loot the area",
                             "Note: you cannot loot the same area more than once",
@@ -63,8 +63,55 @@ information = {"Movement": ["This game has an area system",
                             "You can find Blades which can be used to craft shivs or medkit's",
                             "You can find Tape which can be used the craft shivs or medkit's or silencers",
                             "You can find gun powder which can be used to craft bullets"]
-
                }
+#Holds all the dialogue between charcters inside the game
+dialogue = {"Part 1":["Part 1 - The Tunnel",
+                      ("Radio - Hey,", name, "You there?"),
+                      (name, "- Yea im here?"),
+                      "Radio - So you remeber when the scars took out our western base?",
+                      (name, "- Yes they took those people hostages"),
+                      "Radio - Welllll, Issac had intell that the scars where keeping them hostage in these tunnels",
+                      (name, "- You're shitting me"),
+                      (name, "- Aren't these the tunnels where all those hoards bloaters are traped?"),
+                      "Radio - Yep",
+                      (name, "- And you sent me in, alone, with 10 bullets"),
+                      "Radio - Its fine we just need you to scout for us",
+                      "Radio - Also we trap the bloaters on the other side of the system, there blocked off by the train's",
+                      (name, "- Im not going this im going back to the stadium"),
+                      "Radio - If you come back you will be hung, Issac will not appreciate you leaving your post",
+                      (name, "- Just to scout?"),
+                      "Radio - Yes, just to scout",
+                      "Radio - Goodluck"],
+            "Part 2":["As you move forwards you hear people talking",
+                      "You pear through a crack in a door and see the hostages",
+                      "Scar 1 - Does anyone know how the hell we get out of these tunnels",
+                      "Scar 2 - No dumbass were suck in here",
+                      "Scar 1 - There must be a way out",
+                      "Scar 2 - We could keep looking through the tunnels?",
+                      "Scar 1 - If you want to become infected then be my guest",
+                      "Scar 3 - Shut up your going to attracted them",
+                      (name,"- *clash"),
+                      "You knocked over a bottle",
+                      "Scar 3 - *Wistle",
+                      "Scar 2 - *Wistle",
+                      "Scar 1 - *Wistle",
+                      "You regognise the first wistle it is code for flank them",
+                      "Be ready to enter combat",
+                      "You pick up a piece of glass on the floor"],
+            "Conclusion":[("Radio - Hey",name,"whats your 20?"),
+                         (name, "- I just found the hostages"),
+                         (name,"- I also took out the scars"),
+                         "Radio - You did fucking what",
+                         "Radio - Get the hell out of there now",
+                         "You find a ladder that leads towards a man hole",
+                         "You climb the ladder",
+                         "You open the man hole and smell the fresh air",
+                         (name,"- Im out")],
+            "Area 3":[(name,"- HEY THERE ARE INFECTED IN THE TUNNELS"),
+                     "Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*",
+                     (name,"- fuck there isn't a connection"),
+                     (name,"I need to find a way out of here")]
+            }
 #This function prints the inventory and how many itesm you have in the inventory
 def show_inventory():
     print("-----Inventory-----")
@@ -350,47 +397,15 @@ def intro():
     timer(2)
     part_1()
 
-diaolgue = {}
+
 
 #Start of the game
 def part_1():
     # Introduction
-    print("Part 1 - The Tunnel")
-    print()
-    timer(2)
-    print("Radio - Hey,", name, "You there?")
-    timer(3.5)
-    print(name, "- Yea im here?")
-    timer(3.5)
-    print(name, "- Why did Issac have me posted here?")
-    timer(3.5)
-    print("Radio - So you remeber when the scars took out our western base?")
-    timer(3.5)
-    print(name, "- Yes they took those people hostages")
-    timer(3.5)
-    print("Radio - Welllll, Issac had intell that the scars where keeping them hostage in these tunnels")
-    timer(3.5)
-    print(name, "- You're shitting me")
-    timer(3.5)
-    print(name, "- Aren't these the tunnels where all those hoards bloaters are traped?")
-    timer(3.5)
-    print("Radio - Yep")
-    timer(3.5)
-    print(name, "- And you sent me in, alone, with 10 bullets")
-    timer(3.5)
-    print("Radio - Its fine we just need you to scout for us")
-    timer(3.5)
-    print("Radio - Also we trap the bloaters on the other side of the system, there blocked off by the train's")
-    timer(3.5)
-    print(name, "- Im not going this im going back to the stadium")
-    timer(3.5)
-    print("Radio - If you come back you will be hung, Issac will not apreacheate you leaving your post")
-    timer(3.5)
-    print(name, "- Just to scout?")
-    timer(3.5)
-    print("Radio - Yes, just to scout")
-    timer(3.5)
-    print("Radio - Goodluck")
+
+    for i in range(dialogue["Part 1"]):
+        print(dialogue["Part 1"][i])
+        timer(3.5)
 
     #Area 00 (Before you enter the tunnels)
     while True:
@@ -743,61 +758,22 @@ def combat_scar(a): #Combat Against Scars
             except ValueError:
                 print("Input Error Please try again")
 
+
+
 #Part 2 this is when you find the hostages at the end of the game
 def part_2():
-    print("As you move forwards you hear people talking")
-    timer(3.5)
-    print("You pear through a crack in a door and see the hostages")
-    timer(3.5)
-    print("Scar 1 - Does anyone know how the hell we get out of these tunnels")
-    timer(3.5)
-    print("Scar 2 - No dumbass were suck in here")
-    timer(3.5)
-    print("Scar 1 - There must be a way out")
-    timer(3.5)
-    print("Scar 2 - We could keep looking through the tunnels?")
-    timer(3.5)
-    print("Scar 1 - If you want to become infected then be my guest")
-    timer(3.5)
-    print("Scar 3 - Shut up your going to attracted them")
-    timer(3.5)
-    print(name,"- *clash")
-    timer(1)
-    print("You knocked over a bottle")
-    timer(3.5)
-    print("Scar 3 - *Wistle")
-    timer(3.5)
-    print("Scar 2 - *Wistle")
-    timer(3.5)
-    print("Scar 1 - *Wistle")
-    timer(3.5)
-    print("You regognise the first wistle it is code for flank them")
-    timer(3.5)
-    print("Be ready to enter combat")
-    timer(3.5)
-    print("You pick up a piece of glass on the floor")
-    timer(0.5)
+    for i in range(dialogue["Part 2"]):
+        print(dialogue["Part 2"][i])
+        timer(3.5)
+
     print("+1 Shiv")
     inventory["Shiv"] += 1
     combat_scar(3)
-    print("Radio - Hey",name,"whats your 20?")
-    timer(3.5)
-    print(name,"- I just found the hostages")
-    timer(3.5)
-    print(name,"- I also took out the scars")
-    timer(3.5)
-    print("Radio - You did fucking what")
-    timer(3.5)
-    print("Radio - Get the hell out of there now")
-    timer(3.5)
-    print("You find a ladder that leads towards a man hole")
-    timer(0.5)
-    print("You climb the ladder")
-    timer(0.5)
-    print("You open the man hole and smell the fresh air")
-    timer(0.5)
-    print(name,"- Im out")
-    timer(4)
+
+    for i in range(dialogue["Conclusion"]):
+        print(dialogue["Conclusion"][i])
+        timer(3.5)
+
     print("THANK YOU FOR PLAYING YOU WON")
     while True:
         play_again = str(input("Would you like to play again\nY for yes\nN for no\n"))
@@ -815,15 +791,12 @@ def area_2():
 def area_3(): #Has Combat
     combat_inf(1)
 
+
     #Progress in the story
-    print(name,"- HEY THERE ARE INFECTED IN THE TUNNELS")
-    timer(3.5)
-    print("Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*")
-    timer(3.5)
-    print(name,"- fuck there isn't a connection")
-    timer(3.5)
-    print(name,"I need to find a way out of here")
-    timer(3.5)
+    for i in range(dialogue["Area 3"]):
+        print(dialogue["Area 3"][i])
+        timer(3.5)
+
     area_general(9, 3, "03", "", "")
 
 
