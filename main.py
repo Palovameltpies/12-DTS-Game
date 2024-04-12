@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 10   note to self change this every time you upload to github
+#VERSON 11   note to self change this every time you upload to github
 
 #Infected stats These are randomised
 INFECTED = [
@@ -12,7 +12,7 @@ INFECTED = [
      }]
 
 #Scar Stats (WLF)
-Scar = {"Name":"Scar",
+SCAR = {"Name":"Scar",
         "Health": 8,
         "Attack": 4
         }
@@ -130,6 +130,7 @@ def crafting():
                     return
                 else:
                     print("Please input a valid number")
+                print("[6] To exit")
 
             except ValueError:
                 print("Please input A number")
@@ -138,6 +139,7 @@ def crafting():
 def loot(a):
     # Checks if the area has been looted before
     if looted[str(a)] == False:
+        #Loops twice
         for index in range(2):
             item_pick = random.randint(1, 5)  #Picks what item to find
             item_amount = random.randint(1, 3)  #Picks how many of that item they find
@@ -191,7 +193,7 @@ def map():
 # Timer function, this shortens the amount of code needed when trying to run time.sleep
 def timer(a):
     print("...")
-    #time.sleep(a)
+    time.sleep(a)
     return
 
 #The start of the game
@@ -211,12 +213,12 @@ def intro():
     #Reset all values so that when the player plays the game a 2nd time they don't keep items or can loot areas 2 times
     inventory = {"Weapons": ["Gun"],
                  "Bullets": 10,
-                 "Silencer":3,
+                 "Silencer":1,
                  "Molotov": 0,
                  "Shiv": 0,
                  "Medkit": 0,
                  "Bottle": 3,
-                 "Alcohol": 4,
+                 "Alcohol": 1,
                  "Blade": 2,
                  "Tape": 1,
                  "Gun_powder": 4
@@ -254,6 +256,7 @@ def intro():
               "c12": False,
               "c13": False,
               "c14": False}
+    #Stores the values of the area's that have had combat
     attacked_before = {
               "03":False,
               "06":False,
@@ -266,7 +269,7 @@ def intro():
 
     #Holds current combat values
     combat = []
-    player_health = 1000
+    player_health = 20
     next_area = "00"
     current_area = "00"
     has_map = False
@@ -295,7 +298,6 @@ def intro():
             print("Please input a valid input")
 
 
-    name = ""
     # Holds all the information that is convayed  to the player
     information = {"Movement": ["This game has an area system",
                                 "You can only move in 2 dimension (Up, Down, left, Right)",
@@ -369,7 +371,7 @@ def intro():
                 "Area 3": [(name+ " - HEY THERE ARE INFECTED IN THE TUNNELS"),
                            "Radio - wh^#&@% @*HE CON#&@(T#ON I*# B@* @E C@9N'*# HE(*R Y)*",
                            (name+ " - fuck there isn't a connection"),
-                           (name+ " I need to find a way out of here")]
+                           (name+ " - I need to find a way out of here")]
                 }
 
 
@@ -546,7 +548,7 @@ def combat_func(a,b):  # Combat
     player_health_gain = 0
     global player_health
     global INFECTED
-    global Scar
+    global SCAR
     combat = []
     visable = False
 
@@ -560,7 +562,7 @@ def combat_func(a,b):  # Combat
 
     if b == "scar":
         for i in range(a):
-            combat.append(Scar)
+            combat.append(SCAR)
             print(combat[i]["Name"])
 
     #To make sure when you kill all the enemys it dosn't give you an index out of range error
@@ -599,7 +601,7 @@ def combat_func(a,b):  # Combat
                         visable = True
                         print("You make noise")
                         timer(0.5)
-                        print("You shot a", combat[0]["Name"], "And dealt 4 damage")
+                    print("You shot a", combat[0]["Name"], "And dealt 4 damage")
 
                 elif attack == 2 and inventory["Molotov"] > 0:  # Attack with molotov
                     combat[0]["Health"] -= 10
