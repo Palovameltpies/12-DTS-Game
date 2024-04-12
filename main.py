@@ -36,7 +36,7 @@ area_adjacent  = [[False,False,False,False,"13",False,False,False,False],#0
                   [False,False,False,False,False,False,False,False,False]] #12
                     #0    #1    #2   #3    #4    #5     #6   #7     #8
 
-name = ""
+name = "place_holder_name"
 
 #This function prints the inventory and how many itesm you have in the inventory
 def show_inventory():
