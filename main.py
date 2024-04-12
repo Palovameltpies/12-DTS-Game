@@ -2,7 +2,7 @@ import time
 import random
 
 
-#VERSON 9   note to self change this every time you upload to github
+#VERSON 10   note to self change this every time you upload to github
 
 #Infected stats These are randomised
 INFECTED = [
@@ -48,17 +48,17 @@ def show_inventory():
     print(inventory["Molotov"], ": Molotovs")
     print(inventory["Shiv"], ": Shivs")
     print(inventory["Medkit"], ": MedKits")
-
-
-#This function opens the crafting system
-def crafting():
-    show_inventory()
     print("-----Resorces-----")
     print(inventory["Bottle"], ": Bottles")
     print(inventory["Alcohol"], ": Alcohol")
     print(inventory["Blade"], ": Blades")
     print(inventory["Tape"], ": Tape")
     print(inventory["Gun_powder"], ": Gun Powder")
+
+
+#This function opens the crafting system
+def crafting():
+    show_inventory()
     print("-----Recipes-----")
     print("[1] : 1 Bottle + 2 Alcohol = Molotov(1)")
     print("[2] : 1 Blade + 1 Tape = Shiv(1)")
@@ -155,7 +155,7 @@ def loot(a):
                 print("You found", item_amount, "Alcohol")
             # Tape
             elif item_pick == 4:
-                inventory["Bottle"] += item_amount
+                inventory["Tape"] += item_amount
                 print("You found", item_amount, "Tape")
             # Bottles
             elif item_pick == 5:
@@ -197,6 +197,7 @@ def timer(a):
 #The start of the game
 def intro():
     global inventory
+    global attacked_before
     global looted
     global combat
     global player_health
@@ -253,6 +254,15 @@ def intro():
               "c12": False,
               "c13": False,
               "c14": False}
+    attacked_before = {
+              "03":False,
+              "06":False,
+              "09":False,
+              "a9":False,
+              "a12":False,
+              "b14":False,
+              "c14":False
+    }
 
     #Holds current combat values
     combat = []
@@ -384,13 +394,15 @@ def intro():
                 for i in information["Crafting"]:
                     print(i)
                     timer(3.5)
+            elif more_info == 4: # Exit to contiune
+                print("Goodluck")
+                timer(1.5)
+                break
             elif more_info == 000:
                 intro()
 
             else:
-                print("Good luck")
-                timer(1.5)
-                break
+                print("Please input a valid number")
 
 
         except ValueError:
@@ -552,7 +564,7 @@ def combat_func(a,b):  # Combat
             print(combat[i]["Name"])
 
     #To make sure when you kill all the enemys it dosn't give you an index out of range error
-    combat.append({"Name": "Place_Holder_Name", "Health": 999999999, "Attack": 0})
+    combat.append({"Name": "Place_Holder_Mikio", "Health": 999999999, "Attack": 0})
 
     #If the player is not visable
     while visable == False:
@@ -625,7 +637,7 @@ def combat_func(a,b):  # Combat
                     combat.pop(0) #Removes the infected from the combat list
 
                 #If you become visbale to the enemy they will attack
-                if visable == True:
+                if visable == True and len(combat) != 1:
                     print("You get attacked by an", combat[0]["Name"])
                     print("You take", combat[0]["Attack"], "Damage")
 
@@ -691,7 +703,9 @@ def area_1():
 def area_2():
     area_general(10, 3, "02", "You find an opening, there seems to have bottles lying around", "Hear A noise Ahead")
 def area_3(): #Has Combat
-    combat_func(1,"infe")
+    if attacked_before["03"] == False:
+        combat_func(1,"infe")
+        attacked_before["03"] = True
 
 
     #Progress in the story
@@ -709,7 +723,10 @@ def area_5():
     area_general(8, 4, "05", "You can still see far ahead of you ", "This causes you to feel very alone")
 
 def area_6(): #Has Combat
-    combat_func(2,"infe")
+    if attacked_before["06"] == False:
+        combat_func(2, "infe")
+        attacked_before["06"] = True
+
     area_general(7, 4,"06", "The amount of infected causes you to feel worried", "You find a fire still smoking, people are nearby")
 
 def area_7():
@@ -719,7 +736,9 @@ def area_8():
     area_general(5, 4, "08", "You hear a noise ahead, could it be the scars?", "")
 
 def area_9(): #Has Combat
-    combat_func(2,"infe")
+    if attacked_before["09"] == False:
+        combat_func(2, "infe")
+        attacked_before["09"] = True
     area_general(4, 4, "09", "", "")
 
 def area_10():
@@ -738,7 +757,9 @@ def area_a8():
     area_general(6, 5, "a8", "Putting on your mask you walk through the spores", "")
 
 def area_a9(): #Has Combat
-    combat_func(3,"infe")
+    if attacked_before["a9"] == False:
+        combat_func(3, "infe")
+        attacked_before["a9"] = True
     print("----SPORES----")
     area_general(6, 6, "a9", "These tunnel are crawling with infected you need to figure out where the scars have taken the hosteges", "And get the hell out of here")
 
@@ -751,7 +772,9 @@ def area_a11():
     area_general(5, 7, "a11", "Even more noise ahead expect infected as you are still inside spores", "")
 
 def area_a12(): #Has Combat
-    combat_func(2,"infe")
+    if attacked_before["a12"] == False:
+        combat_func(3, "infe")
+        attacked_before["a12"] = True
     print("----SPORES----")
     area_general(4, 7, "a12", "Fucking infected", "The spores seem to end ahead of you")
 
@@ -768,7 +791,10 @@ def area_b13():
     area_general(3, 7, "b13", "You see spores behind you", "")
 
 def area_b14(): #Has Combat
-    combat_func(2,"infe")
+    if attacked_before["b14"] == False:
+        combat_func(2, "infe")
+        attacked_before["b14"] = True
+
     area_general(2, 7, "b14", "You find a key? I wonder what it is for?", "")
     area_adjacent[2][4] = "11"
 
@@ -782,15 +808,18 @@ def area_c12():
 def area_c13():
     area_general(4, 2, "c13", "", "")
 
-def area_c14(): #Has Combat
-    combat_func(2,"infe")
+def area_c14(): # Has Combat
+    if attacked_before["c14"] == False:
+        combat_func(2, "infe")
+        attacked_before["c14"] = True
+
     area_general(3, 1, "c14", "One of the infected had a crowbar on them", "What could this help open")
     area_adjacent[3][5] = "b11"
 
 
-#MAIN
+# MAIN
 intro()
-#next_area changes when the user inputs in the general area function
+# next_area changes when the user inputs in the general area function
 while True:
     if next_area == "01":
         area_1()
